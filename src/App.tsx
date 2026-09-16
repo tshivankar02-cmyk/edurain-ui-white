@@ -80,7 +80,7 @@ export function App() {
   const vaultItems: VaultResource[] = [
     {
       id: 'vault-physics',
-      title: 'Physics Intel',
+      title: 'Wishlist',
       subject: 'Physics',
       countLabel: '12 PDFs',
       tags: ['Rotational Motion', 'Wave Optics', 'Electrodynamics'],
@@ -126,29 +126,29 @@ export function App() {
     },
   ];
 
-  const studyPlans = [
-    {
-      id: 'sp1',
-      title: '1 - ON - 1 MENTORSHIP',
-      subtitle: '2 Active Enrollments',
-      icon: Users,
-      action: () => setIsUpgradeOpen(true),
-    },
-    {
-      id: 'sp2',
-      title: 'ASK YOUR DOUBT',
-      subtitle: 'Physics - Thermodynamics',
-      icon: HelpCircle,
-      action: () => setIsDoubtSolverOpen(true),
-    },
-    {
-      id: 'sp3',
-      title: 'AI- MENTOR',
-      subtitle: '1 Resolved, 2 Pending',
-      icon: Bot,
-      action: () => setIsDoubtSolverOpen(true),
-    }
-  ];
+  // const studyPlans = [
+  //   {
+  //     id: 'sp1',
+  //     title: '1 - ON - 1 MENTORSHIP',
+  //     subtitle: '2 Active Enrollments',
+  //     icon: Users,
+  //     action: () => setIsUpgradeOpen(true),
+  //   },
+  //   {
+  //     id: 'sp2',
+  //     title: 'ASK YOUR DOUBT',
+  //     subtitle: 'Physics - Thermodynamics',
+  //     icon: HelpCircle,
+  //     action: () => setIsDoubtSolverOpen(true),
+  //   },
+  //   {
+  //     id: 'sp3',
+  //     title: 'AI- MENTOR',
+  //     subtitle: '1 Resolved, 2 Pending',
+  //     icon: Bot,
+  //     action: () => setIsDoubtSolverOpen(true),
+  //   }
+  // ];
 
   const filteredStudyPlans = studyPlans.filter(p => 
     !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
@@ -677,7 +677,7 @@ export function App() {
               <section className="mb-8 sm:mb-10">
                 <div className="flex items-center gap-2.5 mb-4">
                   <Cpu className="w-5 h-5 text-[#175A67]" />
-                  <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Study Plans</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Features</h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
