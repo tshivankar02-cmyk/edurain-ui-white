@@ -723,7 +723,7 @@ export function App() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-4">
                   {filteredVaultItems.map((item) => {
                     const iconMap: Record<string, any> = {
                       book: BookOpen,
@@ -743,7 +743,7 @@ export function App() {
                           <IconComp className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                         </div>
                         <div className="text-center">
-                          <h3 className="font-bold text-[#175A67] text-center text-base sm:text-lg">{item.title}</h3>
+                          <h3 className="font-bold text-[#175A67] text-center text-base sm:text-lg lg:text-[15px] lg:min-w-[200px] lg:leading-normal">{item.title}</h3>
                           <p className={`text-xs text-center mt-1 ${
                             item.isLive ? 'text-[#10B981] font-bold' : 'text-[#2A707C]'
                           }`}>
