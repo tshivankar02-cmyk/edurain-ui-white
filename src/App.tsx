@@ -680,26 +680,26 @@ export function App() {
                   <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Study Plans</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
                   {filteredStudyPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
                       <div 
                         key={plan.id}
                         onClick={plan.action}
-                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col justify-between min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
+                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col  min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
                       >
-                        <div className="flex items-start justify-between">
+                        <div className="w-full flex items-start justify-between">
                           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a5b65] text-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
                             <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
                           <ChevronRight className="w-5 h-5 text-[#175A67] group-hover:translate-x-1 transition-transform" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-[#175A67] text-base sm:text-lg mt-3 leading-tight tracking-tight">
+                          <h3 className="font-bold text-[#175A67] text-[15px] mt-3 leading-tight tracking-tightt">
                             {plan.title}
                           </h3>
-                          <p className="text-[#2A707C] text-xs sm:text-sm mt-1 font-medium">{plan.subtitle}</p>
+                          <p className="text-[#2A707C] text-[12px] mt-1 font-medium">{plan.subtitle}</p>
                         </div>
                       </div>
                     );
