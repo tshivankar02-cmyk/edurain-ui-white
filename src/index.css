@@ -4,8 +4,8 @@
 
 @layer base {
   html, body, #root {
-    background-color: transparent !important;
-    background: transparent !important;
+    background-color: #f8fafc !important;
+    background: #f8fafc !important;
     color: #175A67;
     font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   }

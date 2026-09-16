@@ -129,7 +129,7 @@ export function App() {
   const studyPlans = [
     {
       id: 'sp1',
-      title: 'ONE - ON - ONE MENTORSHIP',
+      title: '1 - ON - 1 MENTORSHIP',
       subtitle: '2 Active Enrollments',
       icon: Users,
       action: () => setIsUpgradeOpen(true),
@@ -159,28 +159,18 @@ export function App() {
   );
 
   return (
-    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-transparent selection:bg-[#175A67] selection:text-[#EAE3DE]">
+    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#F8FAFC] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
       
-      {/* 1. DEDICATED FULLY VISIBLE VIDEO BACKGROUND CONTAINER */}
-      <div className="fixed inset-0 -z-50 w-full h-full pointer-events-none overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4f690bd1-881a-4192-82f2-d714d34c8fb9.png"
-          className="w-full h-full object-cover object-bottom"
-        >
-          <source
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4"
-            type="video/mp4"
-          />
-        </video>
+      {/* 1. SOFT AMBIENT BACKGROUND ACCENTS FOR FROSTED GLASS DEPTH */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute -top-20 -left-20 w-[550px] h-[550px] rounded-full bg-emerald-200/40 blur-[130px]" />
+        <div className="absolute top-1/3 -right-20 w-[600px] h-[600px] rounded-full bg-teal-200/35 blur-[140px]" />
+        <div className="absolute bottom-10 left-1/4 w-[550px] h-[550px] rounded-full bg-sky-200/35 blur-[130px]" />
+        <div className="absolute top-2/3 right-1/3 w-[450px] h-[450px] rounded-full bg-amber-100/50 blur-[120px]" />
       </div>
 
       {/* 2. TOP NAVIGATION BAR */}
-      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-[#EAE3DE]/40 backdrop-blur-md border-b border-[#175A67]/15 flex items-center justify-between px-3 sm:px-6 shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/60 backdrop-blur-lg border-b border-white/80 flex items-center justify-between px-3 sm:px-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
         
         {/* Left: Brand + Hamburger + Desktop Target Selector */}
         <div className="flex items-center gap-2 sm:gap-4">
@@ -199,22 +189,23 @@ export function App() {
             <div className="w-8 h-8 rounded-lg bg-[#175A67] flex items-center justify-center text-[#EAE3DE] shadow-md">
               <Sparkles className="w-4 h-4 fill-[#EAE3DE]" />
             </div>
-            <span className="text-lg sm:text-xl font-bold tracking-tight text-[#175A67]">
-              Edu<span className="text-[#175A67]/90 font-black">Rain</span>
-            </span>
+            <div className="flex items-center text-lg sm:text-xl font-bold tracking-tight">
+              <span className="text-emerald-600 font-bold">Edu</span>
+              <span className="text-amber-400 font-black uppercase">RAIN</span>
+            </div>
           </div>
 
           {/* Desktop Batch Selector */}
           <div className="relative hidden md:block">
             <button
               onClick={() => setIsBatchOpen(!isBatchOpen)}
-              className="border border-[#175A67]/30 text-[#175A67] bg-white/40 hover:bg-white/70 backdrop-blur-md rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5"
+              className="border border-white/80 text-[#175A67] bg-white/60 hover:bg-white/85 backdrop-blur-md rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5"
             >
               <span>{selectedBatch} &gt;</span>
             </button>
 
             {isBatchOpen && (
-              <div className="absolute left-0 top-full mt-2 w-56 rounded-2xl bg-[#EAE3DE]/95 backdrop-blur-2xl border border-[#175A67]/30 shadow-2xl p-2 z-50 animate-fadeIn">
+              <div className="absolute left-0 top-full mt-2 w-56 rounded-2xl bg-white/90 backdrop-blur-2xl border border-white/80 shadow-xl p-2 z-50 animate-fadeIn">
                 {batches.map((batch) => (
                   <button
                     key={batch}
@@ -225,7 +216,7 @@ export function App() {
                     className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       selectedBatch === batch
                         ? 'bg-[#175A67] text-white font-bold'
-                        : 'text-[#175A67] hover:bg-white/60'
+                        : 'text-[#175A67] hover:bg-white/70'
                     }`}
                   >
                     {batch}
@@ -245,7 +236,7 @@ export function App() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search in Resources"
-              className="bg-white/50 border border-[#175A67]/30 text-[#175A67] placeholder-[#2A707C] pl-10 pr-8 py-1.5 rounded-full w-full text-xs sm:text-sm focus:outline-none focus:border-[#175A67] focus:ring-2 focus:ring-[#175A67]/20 transition-all shadow-inner backdrop-blur-sm"
+              className="bg-white/60 border border-white/80 text-[#175A67] placeholder-[#2A707C] pl-10 pr-8 py-1.5 rounded-full w-full text-xs sm:text-sm focus:outline-none focus:border-[#175A67] focus:ring-2 focus:ring-[#175A67]/20 transition-all shadow-inner backdrop-blur-md"
             />
             {searchQuery && (
               <button 
@@ -352,7 +343,7 @@ export function App() {
 
         {/* Drawer Panel */}
         <aside 
-          className={`relative w-[280px] max-w-[85vw] h-full bg-[#EAE3DE]/95 backdrop-blur-2xl border-r border-[#175A67]/30 shadow-2xl flex flex-col justify-between p-5 transform transition-transform duration-300 ease-out ${
+          className={`relative w-[280px] max-w-[85vw] h-full bg-white/80 backdrop-blur-2xl border-r border-white/80 shadow-2xl flex flex-col justify-between p-5 transform transition-transform duration-300 ease-out ${
             isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -363,9 +354,10 @@ export function App() {
                 <div className="w-7 h-7 rounded-lg bg-[#175A67] flex items-center justify-center text-white shadow-sm">
                   <Sparkles className="w-4 h-4 fill-white" />
                 </div>
-                <span className="text-lg font-bold text-[#175A67]">
-                  Edu<span className="font-black">Rain</span>
-                </span>
+                <div className="flex items-center text-lg font-bold tracking-tight">
+                  <span className="text-emerald-600 font-bold">Edu</span>
+                  <span className="text-amber-400 font-black uppercase">RAIN</span>
+                </div>
               </div>
               <button
                 onClick={() => setIsMobileSidebarOpen(false)}
@@ -431,7 +423,7 @@ export function App() {
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
-                <span>Study Central</span>
+                <span>Home</span>
               </button>
 
               <button
@@ -538,7 +530,7 @@ export function App() {
       {/* 4. DESKTOP FIXED SIDEBAR */}
       <div className="pt-16 flex">
         
-        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-md bg-[#EAE3DE]/35 border-r border-[#175A67]/20 p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar">
+        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-lg bg-white/50 border-r border-white/80 p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <div>
             {/* Group: MENU */}
             <div className="text-xs font-bold text-[#2A707C] px-3 mb-2 tracking-wider uppercase">
@@ -549,12 +541,12 @@ export function App() {
                 onClick={() => setActiveNav('study-central')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'study-central'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
-                <span>Study Central</span>
+                <span>Home</span>
               </button>
 
               <button
@@ -564,7 +556,7 @@ export function App() {
                 }}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'pi'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
@@ -579,7 +571,7 @@ export function App() {
                 }}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'library'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
@@ -597,7 +589,7 @@ export function App() {
                 onClick={() => setActiveNav('courses')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'courses'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
@@ -609,7 +601,7 @@ export function App() {
                 onClick={() => setActiveNav('test-series')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'test-series'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
@@ -621,7 +613,7 @@ export function App() {
                 onClick={() => setActiveNav('arena')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'arena'
-                    ? 'bg-[#175A67] text-white shadow-sm'
+                    ? 'bg-[#175A67] text-white shadow-md'
                     : 'text-[#175A67] hover:bg-[#175A67]/10'
                 }`}
               >
@@ -635,7 +627,7 @@ export function App() {
           <div className="pt-4">
             <button
               onClick={() => setIsUpgradeOpen(true)}
-              className="w-full bg-[#175A67] hover:bg-[#124853] text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm active:scale-95"
+              className="w-full bg-[#175A67] hover:bg-[#124853] text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md active:scale-95"
             >
               <span className="text-amber-400">★</span>
               <span>UPGRADE TO PRO</span>
@@ -667,7 +659,7 @@ export function App() {
               {/* Subheader & Wi-Fi Sync Indicator */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
                 <div>
-                  <div className="text-[#175A67] font-medium text-base sm:text-lg">
+                  <div className="text-[#175A67] font-semibold text-base sm:text-lg">
                     Welcome back, operative. Continue your mission.
                   </div>
                   <div className="text-xs text-[#2A707C]">
@@ -675,7 +667,7 @@ export function App() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/40 border border-[#175A67]/20 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md">
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/60 border border-white/80 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md shadow-sm">
                   <Wifi className="w-3.5 h-3.5 text-[#10B981]" />
                   <span>Wi-Fi Preview Active: 192.168.29.39:5173</span>
                 </div>
@@ -695,19 +687,19 @@ export function App() {
                       <div 
                         key={plan.id}
                         onClick={plan.action}
-                        className="backdrop-blur-md bg-[#EAE3DE]/35 hover:bg-[#EAE3DE]/50 border border-[#175A67]/20 rounded-2xl p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col justify-between min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
+                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col justify-between min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
                       >
                         <div className="flex items-start justify-between">
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#175A67] text-white rounded-xl flex items-center justify-center shadow-md">
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a5b65] text-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
                             <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
-                          <ChevronRight className="w-5 h-5 text-[#175A67] transition-transform" />
+                          <ChevronRight className="w-5 h-5 text-[#175A67] group-hover:translate-x-1 transition-transform" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-[#175A67] text-base sm:text-lg mt-3 leading-tight">
+                          <h3 className="font-bold text-[#175A67] text-base sm:text-lg mt-3 leading-tight tracking-tight">
                             {plan.title}
                           </h3>
-                          <p className="text-[#2A707C] text-xs sm:text-sm mt-1">{plan.subtitle}</p>
+                          <p className="text-[#2A707C] text-xs sm:text-sm mt-1 font-medium">{plan.subtitle}</p>
                         </div>
                       </div>
                     );
@@ -745,7 +737,7 @@ export function App() {
                       <div 
                         key={item.id}
                         onClick={() => setSelectedVaultItem(item)}
-                        className="backdrop-blur-md bg-[#EAE3DE]/35 hover:bg-[#EAE3DE]/50 border border-[#175A67]/20 rounded-2xl p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px] active:scale-[0.98]"
+                        className="bg-white/60 hover:bg-white/85 backdrop-blur-md border border-white/80 rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px] active:scale-[0.98]"
                       >
                         <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#175A67] text-white rounded-2xl flex items-center justify-center shadow-md mb-2 sm:mb-3">
                           <IconComp className="w-6 h-6 sm:w-7 sm:h-7 text-white" />

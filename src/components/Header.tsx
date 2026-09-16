@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, 
   Bell, 
@@ -102,12 +102,11 @@ export const Header: React.FC<HeaderProps> = ({
               <Sparkles className="w-5 h-5 text-slate-950 fill-slate-950" />
               <div className="absolute -inset-0.5 rounded-xl bg-emerald-400/30 blur-sm -z-10 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-white flex items-center gap-1 font-sans">
-                Edu<span className="text-emerald-400 bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Rain</span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 ml-1">
-                  LMS
-                </span>
+            <div className="flex items-center text-xl font-black tracking-tight font-sans">
+              <span className="text-emerald-600 font-bold">Edu</span>
+              <span className="text-amber-400 font-black uppercase">RAIN</span>
+              <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 ml-1.5">
+                LMS
               </span>
             </div>
           </div>

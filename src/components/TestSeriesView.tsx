@@ -77,12 +77,12 @@ export const TestSeriesView: React.FC<TestSeriesViewProps> = ({ onBack, onOpenUp
   return (
     <div className="space-y-6 pb-20 animate-fadeIn">
       {/* Banner */}
-      <div className="rounded-2xl bg-[#EAE3DE]/40 border border-[#175A67]/20 p-5 sm:p-7 backdrop-blur-md shadow-sm">
+      <div className="rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 p-5 sm:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="p-2 rounded-xl bg-white/50 hover:bg-white/80 border border-[#175A67]/20 text-[#175A67] transition-all"
+              className="p-2 rounded-xl bg-white/60 hover:bg-white/90 border border-white/80 text-[#175A67] transition-all shadow-sm"
               title="Back to Study Central"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -94,7 +94,7 @@ export const TestSeriesView: React.FC<TestSeriesViewProps> = ({ onBack, onOpenUp
                   NTA ENGINE READY
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#2A707C] mt-0.5">
+              <p className="text-xs sm:text-sm text-[#2A707C] mt-0.5 font-medium">
                 Simulate authentic CBT conditions with instant percentile rank & weak point diagnostic.
               </p>
             </div>
@@ -108,7 +108,7 @@ export const TestSeriesView: React.FC<TestSeriesViewProps> = ({ onBack, onOpenUp
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === tab
                     ? 'bg-[#175A67] text-white shadow-sm'
-                    : 'bg-white/50 text-[#175A67] hover:bg-white/80'
+                    : 'bg-white/60 text-[#175A67] hover:bg-white/90 border border-white/80'
                 }`}
               >
                 {tab === 'all' ? 'All Tests' : '🔴 Live Now'}
@@ -123,11 +123,11 @@ export const TestSeriesView: React.FC<TestSeriesViewProps> = ({ onBack, onOpenUp
         {filteredTests.map((test) => (
           <div
             key={test.id}
-            className="rounded-2xl bg-[#EAE3DE]/35 hover:bg-[#EAE3DE]/50 border border-[#175A67]/20 p-5 sm:p-6 backdrop-blur-md shadow-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+            className="rounded-2xl bg-white/60 hover:bg-white/85 backdrop-blur-md border border-white/80 p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="px-2.5 py-0.5 rounded-full bg-white/60 text-[#175A67] border border-[#175A67]/20 text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-white/70 text-[#175A67] border border-white/80 text-[10px] font-bold">
                   {test.type}
                 </span>
                 {test.live ? (
@@ -142,7 +142,7 @@ export const TestSeriesView: React.FC<TestSeriesViewProps> = ({ onBack, onOpenUp
 
               <h3 className="text-base sm:text-lg font-bold text-[#175A67] leading-snug">{test.title}</h3>
 
-              <div className="grid grid-cols-3 gap-2 mt-4 p-3 rounded-xl bg-white/40 border border-[#175A67]/15 text-center">
+              <div className="grid grid-cols-3 gap-2 mt-4 p-3 rounded-xl bg-white/60 border border-slate-200/60 backdrop-blur-sm text-center">
                 <div>
                   <div className="text-[10px] text-[#2A707C] uppercase font-bold">Duration</div>
                   <div className="text-xs font-bold text-[#175A67] mt-0.5">{test.duration}</div>

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { 
   LayoutDashboard, 
   Sparkles, 
@@ -40,7 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuItems = [
     {
       id: 'study-central' as NavTabId,
-      label: 'Study Central',
+      label: 'Home',
       icon: LayoutDashboard,
       badge: 'Home',
       badgeColor: 'text-emerald-400 bg-emerald-950/60 border-emerald-500/30',
@@ -95,7 +95,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center text-slate-950 font-bold">
               ER
             </div>
-            <span className="font-bold text-white">EduRain Navigation</span>
+            <div className="flex items-center font-bold">
+              <span className="text-emerald-500 font-bold">Edu</span>
+              <span className="text-amber-400 font-black uppercase">RAIN</span>
+              <span className="text-slate-300 font-normal ml-1">Navigation</span>
+            </div>
           </div>
           <button
             onClick={onCloseMobile}

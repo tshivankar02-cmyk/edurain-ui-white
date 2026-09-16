@@ -34,12 +34,12 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
   return (
     <div className="space-y-6 pb-20 animate-fadeIn">
       {/* Banner */}
-      <div className="rounded-2xl bg-[#EAE3DE]/40 border border-[#175A67]/20 p-5 sm:p-7 backdrop-blur-md shadow-sm">
+      <div className="rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 p-5 sm:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex items-start gap-3">
             <button
               onClick={onBack}
-              className="p-2 rounded-xl bg-white/50 hover:bg-white/80 border border-[#175A67]/20 text-[#175A67] transition-all mt-1"
+              className="p-2 rounded-xl bg-white/60 hover:bg-white/90 border border-white/80 text-[#175A67] transition-all mt-1 shadow-sm"
               title="Back to Study Central"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -53,7 +53,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
                 <span className="text-xs text-[#2A707C] font-bold">1,240 Online Warriors</span>
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-[#175A67]">The EduRain Arena</h1>
-              <p className="text-xs sm:text-sm text-[#2A707C] max-w-xl">
+              <p className="text-xs sm:text-sm text-[#2A707C] max-w-xl font-medium">
                 Real-time 1v1 speed duels on IIT-JEE Advanced questions. Climb the national leaderboard and unlock Pro badges.
               </p>
             </div>
@@ -82,7 +82,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
       {/* Leaderboard & Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Left: Leaderboard (2 cols) */}
-        <div className="lg:col-span-2 rounded-2xl bg-[#EAE3DE]/35 border border-[#175A67]/20 p-5 sm:p-6 backdrop-blur-md shadow-sm">
+        <div className="lg:col-span-2 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Trophy className="w-5 h-5 text-amber-500" />
@@ -98,7 +98,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
                 className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
                   ranker.isYou
                     ? 'bg-[#175A67]/15 border-[#175A67]/35 shadow-sm'
-                    : 'bg-white/40 border-[#175A67]/15 hover:bg-white/70'
+                    : 'bg-white/60 border-slate-200/60 hover:bg-white/90 backdrop-blur-sm'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -133,7 +133,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
         </div>
 
         {/* Right: Personal Rank Status */}
-        <div className="rounded-2xl bg-[#EAE3DE]/35 border border-[#175A67]/20 p-5 sm:p-6 backdrop-blur-md shadow-sm flex flex-col justify-between">
+        <div className="rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Award className="w-5 h-5 text-[#175A67]" />
@@ -141,15 +141,15 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ onBack, onOpenUpgrade }) =
             </div>
 
             <div className="space-y-3 mt-4">
-              <div className="p-3 rounded-xl bg-white/40 border border-[#175A67]/15 flex justify-between items-center">
+              <div className="p-3 rounded-xl bg-white/60 border border-slate-200/60 backdrop-blur-sm flex justify-between items-center">
                 <span className="text-xs text-[#2A707C] font-semibold">Duel Win Rate</span>
                 <span className="text-sm font-bold text-[#10B981]">76.4% (38/50)</span>
               </div>
-              <div className="p-3 rounded-xl bg-white/40 border border-[#175A67]/15 flex justify-between items-center">
+              <div className="p-3 rounded-xl bg-white/60 border border-slate-200/60 backdrop-blur-sm flex justify-between items-center">
                 <span className="text-xs text-[#2A707C] font-semibold">Avg Answer Speed</span>
                 <span className="text-sm font-bold text-[#175A67]">14.2 seconds</span>
               </div>
-              <div className="p-3 rounded-xl bg-white/40 border border-[#175A67]/15 flex justify-between items-center">
+              <div className="p-3 rounded-xl bg-white/60 border border-slate-200/60 backdrop-blur-sm flex justify-between items-center">
                 <span className="text-xs text-[#2A707C] font-semibold">Current Division</span>
                 <span className="text-sm font-bold text-[#175A67]">Diamond III</span>
               </div>
