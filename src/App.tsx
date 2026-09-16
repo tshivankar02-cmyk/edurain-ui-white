@@ -126,29 +126,29 @@ export function App() {
     },
   ];
 
-  // const studyPlans = [
-  //   {
-  //     id: 'sp1',
-  //     title: '1 - ON - 1 MENTORSHIP',
-  //     subtitle: '2 Active Enrollments',
-  //     icon: Users,
-  //     action: () => setIsUpgradeOpen(true),
-  //   },
-  //   {
-  //     id: 'sp2',
-  //     title: 'ASK YOUR DOUBT',
-  //     subtitle: 'Physics - Thermodynamics',
-  //     icon: HelpCircle,
-  //     action: () => setIsDoubtSolverOpen(true),
-  //   },
-  //   {
-  //     id: 'sp3',
-  //     title: 'AI- MENTOR',
-  //     subtitle: '1 Resolved, 2 Pending',
-  //     icon: Bot,
-  //     action: () => setIsDoubtSolverOpen(true),
-  //   }
-  // ];
+  const studyPlans = [
+    {
+      id: 'sp1',
+      title: '1 to 1 MENTORSHIP',
+      subtitle: '',
+      icon: Users,
+      action: () => setIsUpgradeOpen(true),
+    },
+    {
+      id: 'sp2',
+      title: 'ASK YOUR DOUBT',
+      subtitle: '',
+      icon: HelpCircle,
+      action: () => setIsDoubtSolverOpen(true),
+    },
+    {
+      id: 'sp3',
+      title: 'AI- MENTOR',
+      subtitle: '',
+      icon: Bot,
+      action: () => setIsDoubtSolverOpen(true),
+    }
+  ];
 
   const filteredStudyPlans = studyPlans.filter(p => 
     !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
