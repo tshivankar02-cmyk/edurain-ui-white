@@ -11,6 +11,7 @@
 }
 
 export interface VaultResource {
+  second_text: string;
   id: string;
   title: string;
   subject: 'Physics' | 'Chemistry' | 'Mathematics' | 'Mock Tests';

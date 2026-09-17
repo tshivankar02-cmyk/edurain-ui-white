@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Menu, 
   Search, 
@@ -19,12 +19,18 @@ import {
   X,
   AlignLeft,
   Wifi,
-  ChevronDown
+  ChevronDown,
+  User,
+  ShoppingBag,
+  LogOut
 } from 'lucide-react';
 import { UpgradeModal } from './components/Modals/UpgradeModal';
 import { DoubtSolverModal } from './components/Modals/DoubtSolverModal';
 import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
+import { ProfileModal } from './components/Modals/ProfileModal';
+import { PurchasesModal } from './components/Modals/PurchasesModal';
+import { PiView } from './components/PiView';
 import { CoursesView } from './components/CoursesView';
 import { TestSeriesView } from './components/TestSeriesView';
 import { ArenaView } from './components/ArenaView';
@@ -45,6 +51,10 @@ export function App() {
   const [isDoubtSolverOpen, setIsDoubtSolverOpen] = useState(false);
   const [selectedVaultItem, setSelectedVaultItem] = useState<VaultResource | null>(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isPurchasesModalOpen, setIsPurchasesModalOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
 
   // Notifications
   const [notifications, setNotifications] = useState<NotificationItem[]>([
@@ -75,13 +85,32 @@ export function App() {
   ]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    if (!isProfileDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileDropdownOpen]);
+
+  const handleLogout = () => {
+    setIsProfileDropdownOpen(false);
+    // TODO: wire this up to your real auth/session teardown
+    console.log('Logging out...');
+  };
   const batches = ['12th - IIT JEE', '11th - IIT JEE', 'Dropper - JEE Advanced', 'NEET-UG Premier'];
 
   const vaultItems: VaultResource[] = [
     {
       id: 'vault-physics',
-      title: 'Wishlist',
+      title: 'Bookmark',
       subject: 'Physics',
+      second_text:'Watch Later',
       countLabel: '12 PDFs',
       tags: ['Rotational Motion', 'Wave Optics', 'Electrodynamics'],
       iconType: 'book',
@@ -91,8 +120,9 @@ export function App() {
     },
     {
       id: 'vault-chemistry',
-      title: 'Chemistry Intel',
+      title: 'Your Class Notes',
       subject: 'Chemistry',
+      second_text:'',
       countLabel: '3 Books',
       tags: ['Reaction Maps', 'Coordination Chem', 'Thermodynamics'],
       iconType: 'archive',
@@ -102,8 +132,9 @@ export function App() {
     },
     {
       id: 'vault-combat',
-      title: 'Mock Tests',
+      title: 'Your Ebook',
       subject: 'Mock Tests',
+      second_text:'',
       countLabel: 'LIVE NOW',
       tags: ['Full Syllabus', 'Real NTA Engine', 'AIR Predictor'],
       iconType: 'combat',
@@ -115,7 +146,8 @@ export function App() {
     },
     {
       id: 'vault-math',
-      title: 'Math Analytics',
+      title: 'Test Series',
+      second_text:'',
       subject: 'Mathematics',
       countLabel: 'Starts in 2 hrs',
       tags: ['Coordinate Geometry', 'Calculus Drill', 'Vectors & 3D'],
@@ -282,13 +314,13 @@ export function App() {
           </button>
 
           {/* User Avatar */}
-          <div className="flex items-center gap-2 sm:gap-3 pl-1 sm:pl-3 border-l border-[#175A67]/20">
+          <div className="relative flex items-center gap-2 sm:gap-3 pl-1 sm:pl-3 border-l border-[#175A67]/20" ref={profileMenuRef}>
             <div className="text-right hidden sm:block leading-tight">
               <span className="text-xs font-bold text-[#175A67] tracking-wide block">Hi, ABHINAV</span>
             </div>
             <div 
               className="relative cursor-pointer" 
-              onClick={() => setIsUpgradeOpen(true)}
+              onClick={() => setIsProfileDropdownOpen((o) => !o)}
               title="Abhinav - Target JEE 2027"
             >
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-[#175A67] to-[#2A707C] p-0.5 shadow-sm">
@@ -298,6 +330,44 @@ export function App() {
               </div>
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10B981] ring-2 ring-[#EAE3DE]" />
             </div>
+
+            {isProfileDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-52 bg-white/95 backdrop-blur-md border border-[#175A67]/10 rounded-2xl shadow-xl py-1.5 z-50 overflow-hidden">
+                <div className="px-3.5 py-2.5 border-b border-[#175A67]/10">
+                  <p className="text-xs font-bold text-[#175A67]">Abhinav Sharma</p>
+                  <p className="text-[10px] text-[#2A707C] truncate">abhinav.sharma@example.com</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setIsProfileDropdownOpen(false);
+                    setIsProfileModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-[#175A67] hover:bg-[#175A67]/5 transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  My Profile
+                </button>
+                <button
+                  onClick={() => {
+                    setIsProfileDropdownOpen(false);
+                    setIsPurchasesModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-[#175A67] hover:bg-[#175A67]/5 transition-colors"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  My Purchases
+                </button>
+                <div className="border-t border-[#175A67]/10 mt-1 pt-1">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
@@ -374,7 +444,15 @@ export function App() {
                 <span className="text-[11px] font-bold text-[#2A707C]">USER PROFILE</span>
                 <span className="text-[10px] bg-[#10B981]/20 text-[#059669] font-bold px-2 py-0.5 rounded-full">PRO ACTIVE</span>
               </div>
-              <div className="text-xs font-bold text-[#175A67]">Abhinav Sharma</div>
+              <button
+                onClick={() => {
+                  setIsMobileSidebarOpen(false);
+                  setIsProfileModalOpen(true);
+                }}
+                className="text-xs font-bold text-[#175A67] hover:underline"
+              >
+                Abhinav Sharma
+              </button>
               
               {/* Batch Selector inside mobile drawer */}
               <div className="mt-2 relative">
@@ -429,7 +507,6 @@ export function App() {
               <button
                 onClick={() => {
                   setActiveNav('pi');
-                  setIsDoubtSolverOpen(true);
                   setIsMobileSidebarOpen(false);
                 }}
                 className={`w-full font-semibold rounded-xl px-3.5 py-2.5 flex items-center gap-3 text-sm transition-all ${
@@ -550,10 +627,7 @@ export function App() {
               </button>
 
               <button
-                onClick={() => {
-                  setActiveNav('pi');
-                  setIsDoubtSolverOpen(true);
-                }}
+                onClick={() => setActiveNav('pi')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'pi'
                     ? 'bg-[#175A67] text-white shadow-md'
@@ -639,7 +713,12 @@ export function App() {
         <main className="flex-1 lg:ml-[250px] px-4 sm:px-8 py-5 sm:py-6 max-w-[1600px] w-full overflow-hidden">
           
           {/* Active View Switching */}
-          {activeNav === 'courses' ? (
+          {activeNav === 'pi' ? (
+            <PiView
+              onOpenUpgrade={() => setIsUpgradeOpen(true)}
+              onOpenDoubtSolver={() => setIsDoubtSolverOpen(true)}
+            />
+          ) : activeNav === 'courses' ? (
             <CoursesView 
               onBack={() => setActiveNav('study-central')}
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
@@ -667,10 +746,10 @@ export function App() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/60 border border-white/80 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md shadow-sm">
+                {/* <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/60 border border-white/80 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md shadow-sm">
                   <Wifi className="w-3.5 h-3.5 text-[#10B981]" />
                   <span>Wi-Fi Preview Active: 192.168.29.39:5173</span>
-                </div>
+                </div> */}
               </div>
 
               {/* Study Plans Row */}
@@ -749,6 +828,11 @@ export function App() {
                           }`}>
                             {item.countLabel}
                           </p>
+                          <p className={`text-xs text-center mt-1 ${
+                            item.isLive ? 'text-[#10B981] font-bold' : 'text-[#2A707C]'
+                          }`}>
+                            {item.second_text}
+                          </p>
                         </div>
                         <span className="text-[#175A67] text-xs text-center block mt-2 sm:mt-3 font-semibold hover:underline">
                           Enter Library &gt;
@@ -789,6 +873,16 @@ export function App() {
         onClose={() => setIsNotificationOpen(false)}
         notifications={notifications}
         onMarkAllRead={() => setNotifications(prev => prev.map(n => ({ ...n, read: true })))}
+      />
+
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
+
+      <PurchasesModal
+        isOpen={isPurchasesModalOpen}
+        onClose={() => setIsPurchasesModalOpen(false)}
       />
 
     </div>
