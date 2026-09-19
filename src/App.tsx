@@ -191,7 +191,7 @@ export function App() {
   );
 
   return (
-    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#F8FAFC] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
+    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#DCEAE3] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
       
       {/* 1. SOFT AMBIENT BACKGROUND ACCENTS FOR FROSTED GLASS DEPTH */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
@@ -202,7 +202,7 @@ export function App() {
       </div>
 
       {/* 2. TOP NAVIGATION BAR */}
-      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/60 backdrop-blur-lg border-b border-white/80 flex items-center justify-between px-3 sm:px-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/60 backdrop-blur-[16px] flex items-center justify-between px-3 sm:px-6 shadow-[0px_1px_2px_0px_#0000000D]">
         
         {/* Left: Brand + Hamburger + Desktop Target Selector */}
         <div className="flex items-center gap-2 sm:gap-4">
@@ -607,7 +607,7 @@ export function App() {
       {/* 4. DESKTOP FIXED SIDEBAR */}
       <div className="pt-16 flex">
         
-        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-lg bg-white/50 border-r border-white/80 p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-[16px] bg-white/50 border-r border-[#FFFFFFA6] p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <div>
             {/* Group: MENU */}
             <div className="text-xs font-bold text-[#2A707C] px-3 mb-2 tracking-wider uppercase">
@@ -739,7 +739,7 @@ export function App() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
                 <div>
                   <div className="text-[#175A67] font-semibold text-base sm:text-lg">
-                    Welcome back, operative. Continue your mission.
+                    Welcome back, <span className="text-[#B8860B]">Gauransh</span> 
                   </div>
                   <div className="text-xs text-[#2A707C]">
                     Target: IIT-JEE Advanced • Current Batch: <span className="font-bold text-[#175A67]">{selectedBatch}</span>
@@ -766,7 +766,7 @@ export function App() {
                       <div 
                         key={plan.id}
                         onClick={plan.action}
-                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col  min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
+                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col  min-h-[140px] sm:min-h-[120px] active:scale-[0.98]"
                       >
                         <div className="w-full flex items-start justify-between">
                           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a5b65] text-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">

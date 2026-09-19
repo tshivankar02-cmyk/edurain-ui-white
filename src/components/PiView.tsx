@@ -20,6 +20,12 @@ import {
   ArrowRight,
   TrendingUp,
   Coins,
+  ShieldCheck,
+  Users,
+  Bookmark,
+  Target,
+  Activity,
+  HelpCircle,
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -42,6 +48,22 @@ interface PiCourse {
   progress?: number;
   gradient: string;
   isNew?: boolean;
+  // Continue Learning specific display fields
+  progressCompleted?: number;
+  progressTotal?: number;
+  lastViewedLabel?: string;
+  nextLesson?: string;
+}
+
+interface TopTenEntry {
+  rank: number;
+  title: string;
+  subject: string;
+  category: Category;
+  rating: number;
+  reviews: string;
+  enrolled: string;
+  highYield: number;
 }
 
 interface GameDef {
@@ -64,41 +86,169 @@ interface PiViewProps {
 
 const COURSES: PiCourse[] = [
   // IIT-JEE
-  { id: 'c1', title: 'Rotational Dynamics Mastery', category: 'IIT-JEE', instructor: 'Er. Kabir Rana', subject: 'Physics', lessons: 42, duration: '18h 20m', priceINR: 149, rating: 4.8, enrolled: '18.2k', progress: 62, gradient: 'from-teal-600 to-emerald-500' },
+  {
+    id: 'c1',
+    title: 'Rotational Dynamics & Angular Momentum',
+    category: 'IIT-JEE',
+    instructor: 'Er. Kabir Rana',
+    subject: 'Physics',
+    lessons: 42,
+    duration: '18h 20m',
+    priceINR: 149,
+    rating: 4.9,
+    enrolled: '18.2k',
+    progress: 72,
+    gradient: 'from-teal-600 to-emerald-500',
+    progressCompleted: 18,
+    progressTotal: 25,
+    lastViewedLabel: 'Last viewed 2h ago',
+  },
   { id: 'c2', title: 'Organic Reactions Vault', category: 'IIT-JEE', instructor: 'Dr. Neha Kapoor', subject: 'Chemistry', lessons: 55, duration: '24h 10m', priceINR: 199, rating: 4.9, enrolled: '22.5k', gradient: 'from-sky-600 to-teal-500' },
-  { id: 'c3', title: 'Calculus for Advanced', category: 'IIT-JEE', instructor: 'Prof. Amit Verma', subject: 'Mathematics', lessons: 38, duration: '16h 45m', priceINR: 129, rating: 4.7, enrolled: '15.9k', progress: 21, gradient: 'from-emerald-600 to-teal-500' },
+  {
+    id: 'c3',
+    title: 'Calculus for Advanced: Integration Techniques',
+    category: 'IIT-JEE',
+    instructor: 'Prof. Amit Verma',
+    subject: 'Mathematics',
+    lessons: 38,
+    duration: '16h 45m',
+    priceINR: 129,
+    rating: 4.8,
+    enrolled: '15.9k',
+    progress: 45,
+    gradient: 'from-emerald-600 to-teal-500',
+    progressCompleted: 17,
+    progressTotal: 38,
+    nextLesson: 'Next: Integration by Parts',
+  },
   { id: 'c4', title: 'Electrostatics from Zero', category: 'IIT-JEE', instructor: 'Er. Kabir Rana', subject: 'Physics', lessons: 30, duration: '14h 05m', priceINR: 99, rating: 4.6, enrolled: '11.3k', isNew: true, gradient: 'from-cyan-600 to-teal-500' },
+  {
+    id: 'c5',
+    title: 'Organic Reaction Mechanisms',
+    category: 'IIT-JEE',
+    instructor: 'Dr. Neha Kapoor',
+    subject: 'Chemistry',
+    lessons: 55,
+    duration: '24h 10m',
+    priceINR: 179,
+    rating: 4.9,
+    enrolled: '19.8k',
+    progress: 88,
+    gradient: 'from-sky-700 to-emerald-600',
+    progressCompleted: 48,
+    progressTotal: 55,
+    nextLesson: 'Next: Aldol Condensation',
+  },
 
   // NEET
-  { id: 'n1', title: 'Human Physiology Deep Dive', category: 'NEET', instructor: 'Dr. Ritu Sharma', subject: 'Biology', lessons: 60, duration: '28h 30m', priceINR: 179, rating: 4.9, enrolled: '31.4k', progress: 45, gradient: 'from-emerald-600 to-lime-500' },
+  {
+    id: 'n1',
+    title: 'Human Physiology Deep Dive',
+    category: 'NEET',
+    instructor: 'Dr. Ritu Sharma',
+    subject: 'Biology',
+    lessons: 60,
+    duration: '28h 30m',
+    priceINR: 179,
+    rating: 4.9,
+    enrolled: '31.4k',
+    progress: 54,
+    gradient: 'from-emerald-600 to-lime-500',
+    progressCompleted: 26,
+    progressTotal: 48,
+    lastViewedLabel: 'Last viewed 5h ago',
+  },
   { id: 'n2', title: 'Genetics & Evolution Sprint', category: 'NEET', instructor: 'Dr. Ritu Sharma', subject: 'Biology', lessons: 34, duration: '15h 00m', priceINR: 149, rating: 4.8, enrolled: '19.7k', gradient: 'from-teal-600 to-green-500' },
   { id: 'n3', title: 'Chemical Bonding NEET Edition', category: 'NEET', instructor: 'Dr. Neha Kapoor', subject: 'Chemistry', lessons: 28, duration: '12h 40m', priceINR: 99, rating: 4.7, enrolled: '14.1k', isNew: true, gradient: 'from-sky-600 to-emerald-500' },
-  { id: 'n4', title: 'NEET Physics Crash Course', category: 'NEET', instructor: 'Er. Kabir Rana', subject: 'Physics', lessons: 25, duration: '11h 15m', priceINR: 129, rating: 4.6, enrolled: '9.8k', progress: 80, gradient: 'from-teal-500 to-cyan-500' },
+  {
+    id: 'n4',
+    title: 'NEET Physics Crash Course',
+    category: 'NEET',
+    instructor: 'Er. Kabir Rana',
+    subject: 'Physics',
+    lessons: 25,
+    duration: '11h 15m',
+    priceINR: 129,
+    rating: 4.6,
+    enrolled: '9.8k',
+    progress: 80,
+    gradient: 'from-teal-500 to-cyan-500',
+    progressCompleted: 20,
+    progressTotal: 25,
+    nextLesson: 'Next: Modern Physics Basics',
+  },
 
   // UPSC
-  { id: 'u1', title: 'Indian Polity Foundations', category: 'UPSC', instructor: 'Ms. Anjali Rao', subject: 'GS Paper II', lessons: 48, duration: '22h 00m', priceINR: 199, rating: 4.9, enrolled: '27.6k', progress: 33, gradient: 'from-amber-600 to-teal-600' },
+  {
+    id: 'u1',
+    title: 'Indian Polity Foundations',
+    category: 'UPSC',
+    instructor: 'Ms. Anjali Rao',
+    subject: 'GS Paper II',
+    lessons: 48,
+    duration: '22h 00m',
+    priceINR: 199,
+    rating: 4.9,
+    enrolled: '27.6k',
+    progress: 33,
+    gradient: 'from-amber-600 to-teal-600',
+    progressCompleted: 16,
+    progressTotal: 48,
+    lastViewedLabel: 'Last viewed 1d ago',
+  },
   { id: 'u2', title: 'Modern History Timeline', category: 'UPSC', instructor: 'Mr. Suresh Iyer', subject: 'GS Paper I', lessons: 40, duration: '19h 50m', priceINR: 149, rating: 4.8, enrolled: '20.3k', gradient: 'from-teal-600 to-amber-500' },
   { id: 'u3', title: 'Ethics & Case Studies', category: 'UPSC', instructor: 'Ms. Anjali Rao', subject: 'GS Paper IV', lessons: 22, duration: '10h 30m', priceINR: 99, rating: 4.7, enrolled: '12.8k', isNew: true, gradient: 'from-emerald-600 to-amber-500' },
   { id: 'u4', title: 'Indian Economy Essentials', category: 'UPSC', instructor: 'Mr. Suresh Iyer', subject: 'GS Paper III', lessons: 36, duration: '17h 20m', priceINR: 169, rating: 4.8, enrolled: '16.5k', gradient: 'from-teal-600 to-lime-500' },
 ];
 
-const TOP_TEN = [
-  { rank: 1, title: 'Rotational Dynamics Mastery', category: 'IIT-JEE' as Category, stat: '18.2k enrolled this week' },
-  { rank: 2, title: 'Human Physiology Deep Dive', category: 'NEET' as Category, stat: '15.7k enrolled this week' },
-  { rank: 3, title: 'Indian Polity Foundations', category: 'UPSC' as Category, stat: '12.4k enrolled this week' },
-  { rank: 4, title: 'Organic Reactions Vault', category: 'IIT-JEE' as Category, stat: '11.9k enrolled this week' },
-  { rank: 5, title: 'Genetics & Evolution Sprint', category: 'NEET' as Category, stat: '9.6k enrolled this week' },
-  { rank: 6, title: 'Modern History Timeline', category: 'UPSC' as Category, stat: '8.8k enrolled this week' },
-  { rank: 7, title: 'Calculus for Advanced', category: 'IIT-JEE' as Category, stat: '7.2k enrolled this week' },
-  { rank: 8, title: 'Chemical Bonding NEET Edition', category: 'NEET' as Category, stat: '6.5k enrolled this week' },
-  { rank: 9, title: 'Ethics & Case Studies', category: 'UPSC' as Category, stat: '5.9k enrolled this week' },
-  { rank: 10, title: 'Electrostatics from Zero', category: 'IIT-JEE' as Category, stat: '5.1k enrolled this week' },
+const TOP_TEN: TopTenEntry[] = [
+  // IIT-JEE
+  { rank: 1, title: 'Rotational Dynamics & Conservation Laws', subject: 'Physics', category: 'IIT-JEE', rating: 4.9, reviews: '3.4k', enrolled: '18.2k', highYield: 98 },
+  { rank: 2, title: 'Electrostatics & Gauss Law Mastery', subject: 'Physics', category: 'IIT-JEE', rating: 4.9, reviews: '2.8k', enrolled: '15.4k', highYield: 96 },
+  { rank: 3, title: 'Definite Integration & Area Under Curves', subject: 'Mathematics', category: 'IIT-JEE', rating: 4.8, reviews: '2.1k', enrolled: '13.9k', highYield: 94 },
+  { rank: 4, title: 'Organic Reactions & Synthesis Vault', subject: 'Chemistry', category: 'IIT-JEE', rating: 4.8, reviews: '1.9k', enrolled: '11.9k', highYield: 92 },
+  { rank: 5, title: 'Coordination Compounds & Crystal Field Theory', subject: 'Chemistry', category: 'IIT-JEE', rating: 4.7, reviews: '1.4k', enrolled: '9.6k', highYield: 91 },
+  { rank: 6, title: 'Thermodynamics & Entropy Analysis', subject: 'Physics', category: 'IIT-JEE', rating: 4.7, reviews: '1.2k', enrolled: '8.8k', highYield: 89 },
+  { rank: 7, title: 'Matrices & Determinants Rank Booster', subject: 'Mathematics', category: 'IIT-JEE', rating: 4.6, reviews: '1.1k', enrolled: '7.9k', highYield: 87 },
+  { rank: 8, title: 'Chemical Bonding & Molecular Geometry', subject: 'Chemistry', category: 'IIT-JEE', rating: 4.7, reviews: '980', enrolled: '7.1k', highYield: 90 },
+  { rank: 9, title: 'Vectors & 3D Geometry Sprint', subject: 'Mathematics', category: 'IIT-JEE', rating: 4.6, reviews: '860', enrolled: '6.4k', highYield: 85 },
+  { rank: 10, title: 'Modern Physics & Photoelectric Effect', subject: 'Physics', category: 'IIT-JEE', rating: 4.8, reviews: '1.5k', enrolled: '9.9k', highYield: 93 },
+
+  // NEET
+  { rank: 1, title: 'Human Physiology Deep Dive', subject: 'Biology', category: 'NEET', rating: 4.9, reviews: '4.1k', enrolled: '21.3k', highYield: 97 },
+  { rank: 2, title: 'Genetics & Evolution Sprint', subject: 'Biology', category: 'NEET', rating: 4.8, reviews: '2.6k', enrolled: '15.8k', highYield: 94 },
+  { rank: 3, title: 'Cell Structure & Biomolecules Mastery', subject: 'Biology', category: 'NEET', rating: 4.8, reviews: '2.2k', enrolled: '13.1k', highYield: 93 },
+  { rank: 4, title: 'Chemical Bonding NEET Edition', subject: 'Chemistry', category: 'NEET', rating: 4.7, reviews: '1.6k', enrolled: '10.4k', highYield: 90 },
+  { rank: 5, title: 'Plant Physiology & Reproduction', subject: 'Biology', category: 'NEET', rating: 4.7, reviews: '1.4k', enrolled: '9.2k', highYield: 89 },
+  { rank: 6, title: 'Human Health & Disease', subject: 'Biology', category: 'NEET', rating: 4.6, reviews: '1.1k', enrolled: '7.6k', highYield: 87 },
+  { rank: 7, title: 'NEET Physics Crash Course', subject: 'Physics', category: 'NEET', rating: 4.6, reviews: '980', enrolled: '6.9k', highYield: 86 },
+  { rank: 8, title: 'Organic Chemistry for NEET', subject: 'Chemistry', category: 'NEET', rating: 4.7, reviews: '1.2k', enrolled: '8.1k', highYield: 88 },
+  { rank: 9, title: 'Ecology & Environment', subject: 'Biology', category: 'NEET', rating: 4.5, reviews: '760', enrolled: '5.4k', highYield: 83 },
+  { rank: 10, title: 'Reproductive Health', subject: 'Biology', category: 'NEET', rating: 4.6, reviews: '890', enrolled: '6.1k', highYield: 85 },
+
+  // UPSC
+  { rank: 1, title: 'Indian Polity Foundations', subject: 'GS Paper II', category: 'UPSC', rating: 4.9, reviews: '3.6k', enrolled: '19.7k', highYield: 97 },
+  { rank: 2, title: 'Modern History Timeline', subject: 'GS Paper I', category: 'UPSC', rating: 4.8, reviews: '2.4k', enrolled: '14.2k', highYield: 93 },
+  { rank: 3, title: 'Indian Economy Essentials', subject: 'GS Paper III', category: 'UPSC', rating: 4.8, reviews: '2.0k', enrolled: '12.6k', highYield: 92 },
+  { rank: 4, title: 'Ethics & Case Studies', subject: 'GS Paper IV', category: 'UPSC', rating: 4.7, reviews: '1.3k', enrolled: '9.1k', highYield: 89 },
+  { rank: 5, title: 'Geography & Natural Resources', subject: 'GS Paper I', category: 'UPSC', rating: 4.6, reviews: '1.1k', enrolled: '7.8k', highYield: 87 },
+  { rank: 6, title: 'Governance & Constitution Deep Dive', subject: 'GS Paper II', category: 'UPSC', rating: 4.7, reviews: '1.0k', enrolled: '7.2k', highYield: 88 },
+  { rank: 7, title: 'Current Affairs Weekly Digest', subject: 'GS Paper III', category: 'UPSC', rating: 4.5, reviews: '820', enrolled: '6.0k', highYield: 84 },
+  { rank: 8, title: 'International Relations Primer', subject: 'GS Paper II', category: 'UPSC', rating: 4.6, reviews: '900', enrolled: '6.5k', highYield: 86 },
+  { rank: 9, title: 'Art & Culture Compendium', subject: 'GS Paper I', category: 'UPSC', rating: 4.5, reviews: '700', enrolled: '5.1k', highYield: 82 },
+  { rank: 10, title: 'Disaster Management Essentials', subject: 'GS Paper III', category: 'UPSC', rating: 4.4, reviews: '560', enrolled: '4.3k', highYield: 80 },
 ];
 
 const GAMES: GameDef[] = [
   { id: 'quiz', title: 'Speed Quiz', tagline: '5 rapid-fire questions, 25 pts each', icon: Brain, reward: 'Up to 125 pts', accent: 'from-teal-600 to-emerald-500' },
   { id: 'reflex', title: 'Reflex Tap', tagline: 'Tap the instant it turns green', icon: Zap, reward: 'Up to 100 pts', accent: 'from-amber-500 to-teal-600' },
   { id: 'spin', title: 'Daily Spin', tagline: 'One free spin, guaranteed reward', icon: Gift, reward: '10 – 100 pts', accent: 'from-emerald-500 to-sky-600' },
+];
+
+const STREAK_ACTIONS: { gameId: GameDef['id']; label: string; xp?: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { gameId: 'quiz', label: 'Speed Quiz', xp: '+25 XP', icon: Zap },
+  { gameId: 'reflex', label: 'Reflex Formula Tap', xp: '+15 XP', icon: Target },
+  { gameId: 'spin', label: 'Spin Daily Bonus', icon: Gift },
 ];
 
 const QUIZ_QUESTIONS = [
@@ -112,8 +262,14 @@ const QUIZ_QUESTIONS = [
 const CATEGORIES: Category[] = ['IIT-JEE', 'NEET', 'UPSC'];
 const POINTS_PER_RUPEE = 10; // 10 points = ₹1
 
+const TOP_TEN_STATS = [
+  { icon: Target, label: 'Predictive AIR Rank', value: 'AIR 1,420', sub: '+380 positions jump this mock', trend: TrendingUp },
+  { icon: Activity, label: 'Overall Syllabus Velocity', value: '68.4%', sub: '14.2 hrs remaining for Physics Phase 2' },
+  { icon: HelpCircle, label: 'AI Accuracy Rate', value: '84.2%', sub: 'Highest in Organic Chem (+6% vs Avg)', trend: TrendingUp },
+];
+
 /* ------------------------------------------------------------------ */
-/*  Small shared bits                                                  */
+/*  Small shared bits (used by the unchanged Games & Courses sections) */
 /* ------------------------------------------------------------------ */
 
 function SectionHeader({
@@ -218,7 +374,146 @@ function CourseCard({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Game panel                                                         */
+/*  Continue Learning card (new design)                                */
+/* ------------------------------------------------------------------ */
+
+function ContinueLearningCard({
+  course,
+  bookmarked,
+  onToggleBookmark,
+  onResume,
+}: {
+  course: PiCourse;
+  bookmarked: boolean;
+  onToggleBookmark: () => void;
+  onResume: () => void;
+}) {
+  const completed = course.progressCompleted ?? 0;
+  const total = course.progressTotal ?? course.lessons;
+  const pct = course.progress ?? Math.round((completed / Math.max(total, 1)) * 100);
+  const cornerLabel = course.lastViewedLabel ?? course.nextLesson;
+
+  return (
+    <div className="shrink-0 w-[290px] sm:w-[310px] bg-white rounded-2xl overflow-hidden shadow-[0_6px_24px_rgb(0,0,0,0.06)] hover:shadow-[0_12px_34px_rgb(0,0,0,0.10)] transition-all duration-300 hover:-translate-y-1">
+      {/* Thumbnail */}
+      <div className={`relative h-36 bg-gradient-to-br ${course.gradient} overflow-hidden flex items-center justify-center`}>
+        <div className="absolute inset-0 opacity-25 flex items-center justify-center">
+          {course.subject === 'Physics' && <Target className="w-24 h-24 text-white" />}
+          {course.subject === 'Mathematics' && <Activity className="w-24 h-24 text-white" />}
+          {(course.subject === 'Chemistry' || course.subject === 'Biology') && <Sparkles className="w-24 h-24 text-white" />}
+          {course.subject.startsWith('GS') && <Bookmark className="w-24 h-24 text-white" />}
+        </div>
+
+        <span className="absolute top-2.5 left-2.5 text-[10px] font-bold bg-[#0F3B42]/90 text-white px-2.5 py-1 rounded-lg">
+          {course.subject}
+        </span>
+
+        {cornerLabel && (
+          <span className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-semibold bg-white/90 text-[#175A67] px-2.5 py-1 rounded-full">
+            {course.lastViewedLabel ? <Clock className="w-3 h-3" /> : <Play className="w-3 h-3 fill-[#175A67]" />}
+            {cornerLabel}
+          </span>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="p-4">
+        <div className="flex items-center gap-1.5 text-[11px] text-[#2A707C]">
+          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+          <span className="font-bold text-[#175A67]">{course.rating}</span>
+          <span>· {course.lessons} lessons · {course.duration}</span>
+        </div>
+
+        <h3 className="font-bold text-[#175A67] text-[15px] leading-snug mt-1.5 line-clamp-2 min-h-[2.6rem]">
+          {course.title}
+        </h3>
+
+        <div className="flex items-center gap-1.5 text-xs text-[#2A707C] mt-1.5">
+          <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" />
+          <span className="truncate">{course.instructor} · {course.category === 'IIT-JEE' ? 'Senior Faculty' : 'Faculty'}</span>
+        </div>
+
+        <div className="mt-3.5">
+          <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
+            <span className="text-[#10B981] font-bold">{pct}% Completed</span>
+            <span className="text-[#2A707C]">{completed}/{total} Lessons</span>
+          </div>
+          <div className="w-full h-1.5 rounded-full bg-[#175A67]/10 overflow-hidden">
+            <div className="h-full bg-[#10B981] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 mt-4">
+          <button
+            onClick={onResume}
+            className="flex-1 flex items-center justify-center gap-1.5 bg-[#0F3B42] hover:bg-[#0b2c31] text-white font-bold text-xs py-2.5 rounded-xl transition-all active:scale-95"
+          >
+            <Play className="w-3.5 h-3.5 fill-white" />
+            Resume Lecture
+          </button>
+          <button
+            onClick={onToggleBookmark}
+            title={bookmarked ? 'Remove bookmark' : 'Bookmark'}
+            className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center border transition-all ${
+              bookmarked ? 'bg-[#175A67] border-[#175A67] text-white' : 'bg-[#EAF3F1] border-[#EAF3F1] text-[#175A67] hover:bg-[#dcece7]'
+            }`}
+          >
+            <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-white' : ''}`} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Top 10 row (new design)                                            */
+/* ------------------------------------------------------------------ */
+
+function TopTenRow({ entry }: { entry: TopTenEntry }) {
+  const isTop = entry.rank === 1;
+  return (
+    <div className="flex items-center gap-3 sm:gap-4 bg-white rounded-2xl px-3.5 sm:px-4 py-3 sm:py-3.5 shadow-[0_4px_18px_rgb(0,0,0,0.05)]">
+      <div
+        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-black text-xs sm:text-sm shrink-0 ${
+          isTop ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white' : 'bg-[#EAF3F1] text-[#175A67]'
+        }`}
+      >
+        #{entry.rank}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h4 className="font-bold text-[#175A67] text-xs sm:text-sm truncate">{entry.title}</h4>
+          <span className="text-[10px] font-bold bg-[#EAF3F1] text-[#175A67] px-2 py-0.5 rounded-full shrink-0">{entry.subject}</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-[11px] text-[#2A707C] mt-1 flex-wrap">
+          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+          <span className="font-semibold text-[#175A67]">{entry.rating}</span>
+          <span>({entry.reviews} reviews)</span>
+          <span className="hidden sm:inline">·</span>
+          <span className="flex items-center gap-1">
+            <Users className="w-3 h-3" /> {entry.enrolled} enrolled this week
+          </span>
+        </div>
+      </div>
+
+      <div className="hidden sm:flex items-center gap-2 shrink-0">
+        <span className="flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full">
+          <ShieldCheck className="w-3 h-3" />
+          {entry.highYield}% High-Yield
+        </span>
+        <button className="text-xs font-bold text-[#175A67] hover:underline flex items-center gap-1 whitespace-nowrap">
+          Preview Syllabus
+          <ArrowRight className="w-3 h-3" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Game panel (unchanged — used by Play & Earn Points)                */
 /* ------------------------------------------------------------------ */
 
 function GamePanel({
@@ -460,7 +755,7 @@ function SpinGame({ onReward, onClose }: { onReward: (p: number, m: string) => v
 }
 
 /* ------------------------------------------------------------------ */
-/*  Convert points panel                                               */
+/*  Convert points panel (unchanged)                                   */
 /* ------------------------------------------------------------------ */
 
 function ConvertPanel({
@@ -535,10 +830,12 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
   const [points, setPoints] = useState(240);
   const [inrBalance, setInrBalance] = useState(0);
   const [ownedCourses, setOwnedCourses] = useState<string[]>([]);
+  const [bookmarkedCourses, setBookmarkedCourses] = useState<string[]>([]);
   const [activeGame, setActiveGame] = useState<GameDef | null>(null);
   const [showConvert, setShowConvert] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [insufficientFor, setInsufficientFor] = useState<PiCourse | null>(null);
+  const continueScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!toast) return;
@@ -558,7 +855,7 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
     [activeCategory, searchQuery]
   );
 
-  const continueWatching = useMemo(
+  const continueLearning = useMemo(
     () => COURSES.filter((c) => c.category === activeCategory && typeof c.progress === 'number'),
     [activeCategory]
   );
@@ -581,110 +878,207 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
     }
   };
 
+  const toggleBookmark = (id: string) => {
+    setBookmarkedCourses((prev) => (prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]));
+  };
+
+  const scrollContinue = (dir: 'left' | 'right') => {
+    continueScrollRef.current?.scrollBy({ left: dir === 'left' ? -330 : 330, behavior: 'smooth' });
+  };
+
   return (
-    <div className="relative">
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-[#175A67] flex items-center justify-center shadow-md">
-              <Sparkles className="w-4.5 h-4.5 text-white" />
-            </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#175A67]">PI</h1>
-          </div>
-          <p className="text-xs sm:text-sm text-[#2A707C] mt-1">
-            Everything for IIT-JEE, NEET & UPSC — courses, rankings, and games that pay you back.
-          </p>
+    <div className="bg-[#DCEAE3] rounded-[28px] p-4 sm:p-6 lg:p-8 relative">
+      {/* Top meta row */}
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+        <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold text-[#175A67]">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#175A67] opacity-50" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#175A67]" />
+          </span>
+          <span className="text-[#003441] bg-[#DCE9FF] uppercase tracking-wide">Real-Time Diagnostic Core</span>
+          <span className="text-[#2A707C] font-medium">· Updated 4m ago</span>
         </div>
 
-        {/* Wallet */}
-        <div className="flex items-center gap-2.5 self-start lg:self-auto">
-          <div className="flex items-center gap-2 bg-white/60 border border-white/80 backdrop-blur-md rounded-2xl px-4 py-2 shadow-sm">
-            <Trophy className="w-4 h-4 text-amber-400" />
-            <span className="text-sm font-bold text-[#175A67]">{points} pts</span>
+        {/* Wallet strip */}
+        <div className="flex items-center gap-2">
+          <div className="relative hidden md:block">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#2A707C] pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={`Search ${activeCategory} content`}
+              className="w-44 lg:w-56 bg-white/80 border border-white text-[#175A67] placeholder-[#2A707C]/70 pl-8 pr-3 py-1.5 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-[#175A67]/20 transition-all shadow-sm"
+            />
           </div>
-          <div className="flex items-center gap-2 bg-white/60 border border-white/80 backdrop-blur-md rounded-2xl px-4 py-2 shadow-sm">
-            <Wallet className="w-4 h-4 text-[#10B981]" />
-            <span className="text-sm font-bold text-[#175A67] flex items-center">
-              <IndianRupee className="w-3.5 h-3.5" />{inrBalance}
+          <div className="flex items-center gap-1.5 bg-white/80 border border-white rounded-full px-3 py-1.5 shadow-sm">
+            <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-xs font-bold text-[#175A67]">{points} pts</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white/80 border border-white rounded-full px-3 py-1.5 shadow-sm">
+            <Wallet className="w-3.5 h-3.5 text-[#10B981]" />
+            <span className="text-xs font-bold text-[#175A67] flex items-center">
+              <IndianRupee className="w-3 h-3" />{inrBalance}
             </span>
           </div>
           <button
             onClick={() => setShowConvert(true)}
-            className="text-xs font-bold bg-[#175A67] hover:bg-[#124853] text-white px-3.5 py-2.5 rounded-2xl transition-all active:scale-95 shadow-sm"
+            className="text-[11px] font-bold bg-[#175A67] hover:bg-[#124853] text-white px-3.5 py-1.5 rounded-full transition-all active:scale-95 shadow-sm"
           >
             Convert
           </button>
+        </div>
+      </div>
+
+      {/* Title + category tabs + Ask Doubt */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#003441]">
+            PI <span className="font-medium text-[#003441] text-lg sm:text-xl">(Personalized Intelligence)</span>
+          </h1>
+          <span className="text-[10px] font-black uppercase bg-amber-200 text-amber-800 px-2.5 py-1 rounded-full">Pro</span>
+        </div>
+
+        {/* <div className="flex items-center gap-2.5 flex-wrap">
+          <div className="flex items-center bg-white/70 border border-white  rounded-[12px] p-1 shadow-sm">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
+                  activeCategory === cat ? 'bg-[#0F3B42] text-white shadow-md' : 'text-[#175A67] hover:bg-white/70'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={onOpenDoubtSolver}
-            title="Ask a doubt"
-            className="flex items-center gap-1.5 text-xs font-bold bg-white/60 border border-white/80 backdrop-blur-md text-[#175A67] hover:bg-white/85 px-3.5 py-2.5 rounded-2xl transition-all active:scale-95 shadow-sm"
+            className="flex items-center gap-1.5 bg-white hover:bg-white/90 border border-white rounded-full pl-4 pr-2 py-2 text-xs sm:text-sm font-bold text-[#175A67] shadow-sm transition-all active:scale-95"
           >
-            <Brain className="w-4 h-4" />
-            <span className="hidden sm:inline">Ask Doubt</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#175A67]" />
+            Ask Doubt
+            <span className="text-[9px] font-black bg-[#0F3B42] text-white px-2 py-1 rounded-full">AI</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
-      {/* Search + category */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-8">
-        <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A707C] pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Search ${activeCategory} content`}
-            className="w-full bg-white/60 border border-white/80 text-[#175A67] placeholder-[#2A707C] pl-10 pr-4 py-2.5 rounded-full text-sm focus:outline-none focus:border-[#175A67] focus:ring-2 focus:ring-[#175A67]/20 transition-all shadow-inner backdrop-blur-md"
-          />
-        </div>
-        <div className="flex items-center gap-2 bg-white/50 border border-white/80 backdrop-blur-md rounded-full p-1 shadow-sm self-start">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
-                activeCategory === cat ? 'bg-[#175A67] text-white shadow-md' : 'text-[#175A67] hover:bg-white/70'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Daily Streak banner */}
+      <section className="mb-8">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-[0_6px_24px_rgb(0,0,0,0.05)] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="relative w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center shrink-0">
+              <Flame className="w-6 h-6 text-orange-500 fill-orange-400" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-red-500 ring-2 ring-white" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-bold text-[#0B1C30] text-sm sm:text-base">Daily Streak: 5 Days</h3>
+                {/* <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full ">2x Multiplier Active</span> */}
+              </div>
+              <p className="text-xs text-[#2A707C] mt-1">Solve 2 more questions before 11:59 PM to safeguard your streak</p>
+            </div>
+          </div>
 
-      {/* Continue Watching */}
-      {continueWatching.length > 0 && (
-        <section className="mb-9">
-          <SectionHeader icon={Clock} title="Continue Watching" />
-          <ScrollRow>
-            {continueWatching.map((c) => (
-              <CourseCard key={c.id} course={c} owned={ownedCourses.includes(c.id)} onBuy={handleBuy} />
+          {/* <div className="flex flex-wrap items-center gap-2">
+            {STREAK_ACTIONS.map((action) => (
+              <button
+                key={action.gameId}
+                onClick={() => setActiveGame(GAMES.find((g) => g.id === action.gameId) ?? null)}
+                className="flex items-center gap-1.5 bg-[#EAF3F1] hover:bg-[#dcece7] text-[#175A67] text-xs font-bold px-3.5 py-2 rounded-full transition-all active:scale-95"
+              >
+                <action.icon className="w-3.5 h-3.5" />
+                {action.label}
+                {action.xp && <span className="text-[#10B981]">{action.xp}</span>}
+                {!action.xp && <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />}
+              </button>
             ))}
-          </ScrollRow>
+          </div> */}
+        </div>
+      </section>
+
+      {/* Continue Learning */}
+      {continueLearning.length > 0 && (
+        <section className="mb-9">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Continue Learning</h2>
+              <p className="text-xs text-[#2A707C] mt-1">Pick up right where you left off · Synchronized with your revision plan</p>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => scrollContinue('left')}
+                className="w-9 h-9 rounded-[12px] !bg-white shadow-sm flex items-center justify-center text-[#175A67] transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scrollContinue('right')}
+                className="w-9 h-9 rounded-[12px] !bg-white shadow-sm flex items-center justify-center text-[#175A67] transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div ref={continueScrollRef} className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth pb-1">
+            {continueLearning.map((course) => (
+              <ContinueLearningCard
+                key={course.id}
+                course={course}
+                bookmarked={bookmarkedCourses.includes(course.id)}
+                onToggleBookmark={() => toggleBookmark(course.id)}
+                onResume={() => setToast(`Resuming: ${course.nextLesson ?? course.title}`)}
+              />
+            ))}
+          </div>
         </section>
       )}
 
-      {/* Top 10 this week */}
+      {/* Top 10 This Week */}
       <section className="mb-9">
-        <SectionHeader icon={TrendingUp} title="Top 10 This Week" />
-        <ScrollRow>
-          {topTenFiltered.map((t) => (
-            <div
-              key={t.rank}
-              className="shrink-0 w-[240px] bg-white/60 hover:bg-white/85 backdrop-blur-md border border-white/80 rounded-2xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] transition-all duration-300 hover:-translate-y-1 flex items-center gap-3"
-            >
-              <span className="text-2xl font-black text-[#175A67]/25 w-8 shrink-0">{t.rank}</span>
+        <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Top 10 This Week</h2>
+            <span className="flex items-center gap-1 text-[10px] font-bold bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full">
+              <TrendingUp className="w-3 h-3" />
+              Trending among top 1% aspirants
+            </span>
+          </div>
+          <button className="text-xs font-bold text-[#175A67] hover:underline flex items-center gap-1">
+            View All Leaderboards
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="space-y-2.5">
+          {topTenFiltered.map((entry) => (
+            <TopTenRow key={`${entry.category}-${entry.rank}`} entry={entry} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          {TOP_TEN_STATS.map((stat) => (
+            <div key={stat.label} className="bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#EAF3F1] flex items-center justify-center text-[#175A67] shrink-0">
+                <stat.icon className="w-4 h-4" />
+              </div>
               <div className="min-w-0">
-                <p className="font-bold text-[#175A67] text-sm leading-snug truncate">{t.title}</p>
-                <p className="text-[11px] text-[#2A707C] mt-1">{t.stat}</p>
+                <p className="text-[10px] font-bold text-[#2A707C] uppercase tracking-wide">{stat.label}</p>
+                <p className="text-lg font-black text-[#175A67] mt-0.5">{stat.value}</p>
+                <p className="text-[11px] text-[#2A707C] mt-0.5 flex items-center gap-1">
+                  {stat.trend && <stat.trend className="w-3 h-3 text-emerald-500 shrink-0" />}
+                  <span className="truncate">{stat.sub}</span>
+                </p>
               </div>
             </div>
           ))}
-        </ScrollRow>
+        </div>
       </section>
 
-      {/* Games */}
+      {/* Games — UNCHANGED */}
       <section className="mb-9">
         <SectionHeader icon={Flame} title="Play & Earn Points" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -705,8 +1099,8 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
         </div>
       </section>
 
-      {/* Category courses */}
-      <section className="pb-8">
+      {/* Category courses — UNCHANGED */}
+      <section className="pb-2">
         <SectionHeader icon={Play} title={`${activeCategory} Courses`} />
         {categoryCourses.length === 0 ? (
           <p className="text-sm text-[#2A707C]">No content matches "{searchQuery}" in {activeCategory}.</p>
