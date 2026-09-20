@@ -28,7 +28,7 @@ import { UpgradeModal } from './components/Modals/UpgradeModal';
 import { DoubtSolverModal } from './components/Modals/DoubtSolverModal';
 import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
-import { ProfileModal } from './components/Modals/ProfileModal';
+import { ProfileView } from './components/ProfileView';
 import { PurchasesModal } from './components/Modals/PurchasesModal';
 import { PiView } from './components/PiView';
 import { CoursesView } from './components/CoursesView';
@@ -38,7 +38,7 @@ import { VaultResource, NotificationItem } from './types';
 
 export function App() {
   // Navigation States
-  const [activeNav, setActiveNav] = useState<'study-central' | 'pi' | 'library' | 'courses' | 'test-series' | 'arena'>('study-central');
+  const [activeNav, setActiveNav] = useState<'study-central' | 'pi' | 'library' | 'courses' | 'test-series' | 'arena' | 'profile'>('study-central');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [selectedBatch, setSelectedBatch] = useState('12th - IIT JEE');
@@ -52,7 +52,6 @@ export function App() {
   const [selectedVaultItem, setSelectedVaultItem] = useState<VaultResource | null>(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isPurchasesModalOpen, setIsPurchasesModalOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -340,7 +339,7 @@ export function App() {
                 <button
                   onClick={() => {
                     setIsProfileDropdownOpen(false);
-                    setIsProfileModalOpen(true);
+                    setActiveNav('profile');
                   }}
                   className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-[#175A67] hover:bg-[#175A67]/5 transition-colors"
                 >
@@ -447,7 +446,7 @@ export function App() {
               <button
                 onClick={() => {
                   setIsMobileSidebarOpen(false);
-                  setIsProfileModalOpen(true);
+                  setActiveNav('profile');
                 }}
                 className="text-xs font-bold text-[#175A67] hover:underline"
               >
@@ -713,7 +712,9 @@ export function App() {
         <main className="flex-1 lg:ml-[250px] px-4 sm:px-8 py-5 sm:py-6 max-w-[1600px] w-full overflow-hidden">
           
           {/* Active View Switching */}
-          {activeNav === 'pi' ? (
+          {activeNav === 'profile' ? (
+            <ProfileView onBack={() => setActiveNav('study-central')} />
+          ) : activeNav === 'pi' ? (
             <PiView
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
               onOpenDoubtSolver={() => setIsDoubtSolverOpen(true)}
@@ -873,11 +874,6 @@ export function App() {
         onClose={() => setIsNotificationOpen(false)}
         notifications={notifications}
         onMarkAllRead={() => setNotifications(prev => prev.map(n => ({ ...n, read: true })))}
-      />
-
-      <ProfileModal
-        isOpen={isProfileModalOpen}
-        onClose={() => setIsProfileModalOpen(false)}
       />
 
       <PurchasesModal
