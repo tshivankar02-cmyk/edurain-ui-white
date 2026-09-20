@@ -29,6 +29,7 @@ import { DoubtSolverModal } from './components/Modals/DoubtSolverModal';
 import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
 import { ProfileView } from './components/ProfileView';
+import { LibraryView } from './components/LibraryView';
 import { PurchasesModal } from './components/Modals/PurchasesModal';
 import { PiView } from './components/PiView';
 import { CoursesView } from './components/CoursesView';
@@ -521,7 +522,6 @@ export function App() {
               <button
                 onClick={() => {
                   setActiveNav('library');
-                  setSelectedVaultItem(vaultItems[0]);
                   setIsMobileSidebarOpen(false);
                 }}
                 className={`w-full font-semibold rounded-xl px-3.5 py-2.5 flex items-center gap-3 text-sm transition-all ${
@@ -638,10 +638,7 @@ export function App() {
               </button>
 
               <button
-                onClick={() => {
-                  setActiveNav('library');
-                  setSelectedVaultItem(vaultItems[0]);
-                }}
+                onClick={() => setActiveNav('library')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'library'
                     ? 'bg-[#175A67] text-white shadow-md'
@@ -714,6 +711,8 @@ export function App() {
           {/* Active View Switching */}
           {activeNav === 'profile' ? (
             <ProfileView onBack={() => setActiveNav('study-central')} />
+          ) : activeNav === 'library' ? (
+            <LibraryView onOpenUpgrade={() => setIsUpgradeOpen(true)} />
           ) : activeNav === 'pi' ? (
             <PiView
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
@@ -795,7 +794,7 @@ export function App() {
                     <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Library</h2>
                   </div>
                   <button 
-                    onClick={() => setSelectedVaultItem(vaultItems[0])}
+                    onClick={() => setActiveNav('library')}
                     className="text-xs sm:text-sm font-semibold text-[#175A67] hover:underline flex items-center gap-1"
                   >
                     <span>View All Resources</span>
