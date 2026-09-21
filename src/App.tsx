@@ -30,6 +30,7 @@ import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
 import { ProfileView } from './components/ProfileView';
 import { LibraryView } from './components/LibraryView';
+import { CohortGoalModal, GoalId } from './components/Modals/CohortGoalModal';
 import { PurchasesModal } from './components/Modals/PurchasesModal';
 import { PiView } from './components/PiView';
 import { CoursesView } from './components/CoursesView';
@@ -43,7 +44,8 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [selectedBatch, setSelectedBatch] = useState('12th - IIT JEE');
-  const [isBatchOpen, setIsBatchOpen] = useState(false);
+  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
+  const [activeGoal, setActiveGoal] = useState<GoalId>('iit-jee');
   const [isDrawerBatchOpen, setIsDrawerBatchOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -230,32 +232,11 @@ export function App() {
           {/* Desktop Batch Selector */}
           <div className="relative hidden md:block">
             <button
-              onClick={() => setIsBatchOpen(!isBatchOpen)}
+              onClick={() => setIsGoalModalOpen(true)}
               className="border border-white/80 text-[#175A67] bg-white/60 hover:bg-white/85 backdrop-blur-md rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5"
             >
               <span>{selectedBatch} &gt;</span>
             </button>
-
-            {isBatchOpen && (
-              <div className="absolute left-0 top-full mt-2 w-56 rounded-2xl bg-white/90 backdrop-blur-2xl border border-white/80 shadow-xl p-2 z-50 animate-fadeIn">
-                {batches.map((batch) => (
-                  <button
-                    key={batch}
-                    onClick={() => {
-                      setSelectedBatch(batch);
-                      setIsBatchOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
-                      selectedBatch === batch
-                        ? 'bg-[#175A67] text-white font-bold'
-                        : 'text-[#175A67] hover:bg-white/70'
-                    }`}
-                  >
-                    {batch}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 
@@ -878,6 +859,13 @@ export function App() {
       <PurchasesModal
         isOpen={isPurchasesModalOpen}
         onClose={() => setIsPurchasesModalOpen(false)}
+      />
+
+      <CohortGoalModal
+        isOpen={isGoalModalOpen}
+        onClose={() => setIsGoalModalOpen(false)}
+        activeGoal={activeGoal}
+        onConfirm={(goal) => setActiveGoal(goal)}
       />
 
     </div>
