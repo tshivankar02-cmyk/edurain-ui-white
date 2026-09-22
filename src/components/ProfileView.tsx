@@ -517,6 +517,8 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
         </div>
       </div>
 
+            
+
       {/* Bottom stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-center gap-3">
@@ -542,7 +544,7 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
             </p>
           </div>
         </div>
-
+            
         <div className="bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center shrink-0">
             <Flame className="w-4.5 h-4.5 text-sky-600" />

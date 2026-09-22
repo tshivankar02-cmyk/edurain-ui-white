@@ -171,7 +171,7 @@ const MODULES: LibraryModule[] = [
 
 function ModuleCard({ module, onView }: { module: LibraryModule; onView: () => void }) {
   return (
-    <div className="shrink-0 w-[260px] sm:w-[280px] bg-gradient-to-br from-[#0F3B42] to-[#0b2c31] rounded-2xl p-5 shadow-[0_10px_30px_rgb(0,0,0,0.18)] flex flex-col justify-between min-h-[280px]">
+    <div className="shrink-0 w-[260px] sm:w-[280px] bg-gradient-to-br from-[#0F3B42] to-[#0b2c31] rounded-2xl p-5 flex flex-col justify-between min-h-[280px]">
       <div>
         <div className="flex items-center justify-between mb-4">
           <span className="text-[10px] font-bold bg-white/15 text-white px-2.5 py-1 rounded-full">{module.subject}</span>
@@ -244,11 +244,11 @@ export function LibraryView({ onOpenUpgrade }: LibraryViewProps) {
           </div>
 
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#175A67]">Resource Library</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-[#0B1C30]">Resource Library</h1>
             <span className="text-[10px] font-black uppercase bg-[#0F3B42] text-white px-2.5 py-1 rounded-full">Pro</span>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#2A707C] mt-2 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#40484B] mt-2 max-w-xl">
             Comprehensive high-yield notes, derivation sheets, and Irodov problem breakdowns curated by IIT Top 100 rankers.
           </p>
         </div>
@@ -270,7 +270,7 @@ export function LibraryView({ onOpenUpgrade }: LibraryViewProps) {
 
           <button
             onClick={() => showToast('Preparing your High-Yield PDF bundle for download…')}
-            className="flex items-center gap-2 bg-[#0F3B42] hover:bg-[#0b2c31] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-full shadow-sm transition-all active:scale-95"
+            className="flex items-center gap-2 bg-[#0F3B42] hover:bg-[#0b2c31] text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-full shadow-sm transition-all active:scale-95"
           >
             <Download className="w-4 h-4" />
             Download All High-Yield PDFs
@@ -286,7 +286,7 @@ export function LibraryView({ onOpenUpgrade }: LibraryViewProps) {
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-bold text-[#175A67] text-sm sm:text-base">Saved Vault: 6 Modules</h3>
+              <h3 className="font-bold text-[#0B1C30] text-sm sm:text-base">Saved Vault: 6 Modules</h3>
               <span className="flex items-center gap-1 text-[10px] font-bold bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full">
                 <PackageCheck className="w-3 h-3" />
                 Ready Offline
@@ -334,7 +334,7 @@ export function LibraryView({ onOpenUpgrade }: LibraryViewProps) {
       <section className="pb-2 bg-[#F0FCFE] p-7 rounded-[24px]">
         <div className="flex items-start justify-between mb-4 gap-3">
           <div>
-            <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">High-Yield Modules</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#0B1C30]">High-Yield Modules</h2>
             <p className="text-xs text-[#2A707C] mt-1">Pick up where your AI diagnostic recommended based on syllabus gaps</p>
           </div>
           <div className="hidden sm:flex items-center gap-2 shrink-0">

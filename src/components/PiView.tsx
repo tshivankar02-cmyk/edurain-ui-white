@@ -285,7 +285,7 @@ function SectionHeader({
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-2.5">
         <Icon className="w-5 h-5 text-[#175A67]" />
-        <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">{title}</h2>
+        <h2 className="text-lg sm:text-xl font-bold text-[#0B4A4F]">{title}</h2>
       </div>
       {action}
     </div>
@@ -342,8 +342,8 @@ function CourseCard({
         )}
       </div>
       <div className="p-3.5">
-        <h3 className="font-bold text-[#175A67] text-sm leading-snug line-clamp-2 min-h-[2.5rem]">{course.title}</h3>
-        <p className="text-[11px] text-[#2A707C] mt-0.5">{course.instructor}</p>
+        <h3 className="font-semibold text-[#0F172A] text-sm leading-snug line-clamp-2 min-h-[2.5rem]">{course.title}</h3>
+        <p className="text-[11px] text-[#64748B] mt-0.5">{course.instructor}</p>
         <div className="flex items-center gap-1 mt-1.5 text-[11px] text-[#2A707C]">
           <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
           <span className="font-semibold text-[#175A67]">{course.rating}</span>
@@ -424,13 +424,13 @@ function ContinueLearningCard({
           <span>· {course.lessons} lessons · {course.duration}</span>
         </div>
 
-        <h3 className="font-bold text-[#175A67] text-[15px] leading-snug mt-1.5 line-clamp-2 min-h-[2.6rem]">
+        <h3 className="font-semibold text-[#0B1C30] text-[15px] leading-snug mt-1.5 line-clamp-2 min-h-[2.6rem]">
           {course.title}
         </h3>
 
         <div className="flex items-center gap-1.5 text-xs text-[#2A707C] mt-1.5">
           <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" />
-          <span className="truncate">{course.instructor} · {course.category === 'IIT-JEE' ? 'Senior Faculty' : 'Faculty'}</span>
+          <span className="truncate text-[#40484B]">{course.instructor} · {course.category === 'IIT-JEE' ? 'Senior Faculty' : 'Faculty'}</span>
         </div>
 
         <div className="mt-3.5">
@@ -446,7 +446,7 @@ function ContinueLearningCard({
         <div className="flex items-center gap-2 mt-4">
           <button
             onClick={onResume}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#0F3B42] hover:bg-[#0b2c31] text-white font-bold text-xs py-2.5 rounded-xl transition-all active:scale-95"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-[#0F3B42] hover:bg-[#0b2c31] text-white font-semibold text-xs py-2.5 rounded-xl transition-all active:scale-95"
           >
             <Play className="w-3.5 h-3.5 fill-white" />
             Resume Lecture
@@ -476,7 +476,7 @@ function TopTenRow({ entry }: { entry: TopTenEntry }) {
     <div className="flex items-center gap-3 sm:gap-4 bg-white rounded-2xl px-3.5 sm:px-4 py-3 sm:py-3.5 shadow-[0_4px_18px_rgb(0,0,0,0.05)]">
       <div
         className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-black text-xs sm:text-sm shrink-0 ${
-          isTop ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white' : 'bg-[#EAF3F1] text-[#175A67]'
+          isTop ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white font-semiBold' : 'bg-[#EAF3F1] text-[#003441]'
         }`}
       >
         #{entry.rank}
@@ -484,7 +484,7 @@ function TopTenRow({ entry }: { entry: TopTenEntry }) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <h4 className="font-bold text-[#175A67] text-xs sm:text-sm truncate">{entry.title}</h4>
+          <h4 className="font-semibold text-[#0B1C30] text-xs sm:text-sm truncate">{entry.title}</h4>
           <span className="text-[10px] font-bold bg-[#EAF3F1] text-[#175A67] px-2 py-0.5 rounded-full shrink-0">{entry.subject}</span>
         </div>
         <div className="flex items-center gap-1.5 text-[11px] text-[#2A707C] mt-1 flex-wrap">
@@ -503,7 +503,7 @@ function TopTenRow({ entry }: { entry: TopTenEntry }) {
           <ShieldCheck className="w-3 h-3" />
           {entry.highYield}% High-Yield
         </span>
-        <button className="text-xs font-bold text-[#175A67] hover:underline flex items-center gap-1 whitespace-nowrap">
+        <button className="text-xs font-bold text-[#003441] hover:underline flex items-center gap-1 whitespace-nowrap">
           Preview Syllabus
           <ArrowRight className="w-3 h-3" />
         </button>
@@ -1004,8 +1004,8 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
         <section className="mb-9">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Continue Learning</h2>
-              <p className="text-xs text-[#2A707C] mt-1">Pick up right where you left off · Synchronized with your revision plan</p>
+              <h2 className="text-lg sm:text-xl font-semibold text-[#003441]">Continue Learning</h2>
+              <p className="text-xs text-[#40484B] mt-1">Pick up right where you left off · Synchronized with your revision plan</p>
             </div>
             <div className="hidden sm:flex items-center gap-2 shrink-0">
               <button
@@ -1041,7 +1041,7 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
       <section className="mb-9">
         <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Top 10 This Week</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-[#003441]">Top 10 This Week</h2>
             <span className="flex items-center gap-1 text-[10px] font-bold bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full">
               <TrendingUp className="w-3 h-3" />
               Trending among top 1% aspirants
@@ -1066,9 +1066,9 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
                 <stat.icon className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] font-bold text-[#2A707C] uppercase tracking-wide">{stat.label}</p>
-                <p className="text-lg font-black text-[#175A67] mt-0.5">{stat.value}</p>
-                <p className="text-[11px] text-[#2A707C] mt-0.5 flex items-center gap-1">
+                <p className="text-[10px] font-semibold text-[#40484B] uppercase tracking-wide">{stat.label}</p>
+                <p className="text-lg font-semibold font-black text-[#003441] mt-0.5">{stat.value}</p>
+                <p className="text-[11px] text-[#006972] mt-0.5 flex items-center gap-1">
                   {stat.trend && <stat.trend className="w-3 h-3 text-emerald-500 shrink-0" />}
                   <span className="truncate">{stat.sub}</span>
                 </p>
@@ -1091,8 +1091,8 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
               <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${game.accent} text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform`}>
                 <game.icon className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-[#175A67] text-sm mt-3">{game.title}</h3>
-              <p className="text-[#2A707C] text-xs mt-1">{game.tagline}</p>
+              <h3 className="font-semibold text-[#1E293B] text-sm mt-3">{game.title}</h3>
+              <p className="text-[#64748B] text-xs mt-1">{game.tagline}</p>
               <p className="text-[11px] font-bold text-[#10B981] mt-2">{game.reward}</p>
             </div>
           ))}

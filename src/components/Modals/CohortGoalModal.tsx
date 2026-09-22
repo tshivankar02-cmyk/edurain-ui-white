@@ -117,8 +117,8 @@ export function CohortGoalModal({ isOpen, onClose, activeGoal, onConfirm }: Coho
             Adaptive Learning Path
           </span>
 
-          <h2 className="text-xl sm:text-2xl font-bold text-[#175A67] mt-3">Select your Goal</h2>
-          <p className="text-xs sm:text-sm text-[#2A707C] mt-1.5 max-w-lg">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#0C2E35] mt-3">Select your Goal</h2>
+          <p className="text-xs sm:text-sm text-[#64748B] mt-1.5 max-w-lg">
             Choose your primary target exam to personalize your syllabus, diagnostic tests, and ranker notes.
           </p>
         </div>
@@ -127,8 +127,8 @@ export function CohortGoalModal({ isOpen, onClose, activeGoal, onConfirm }: Coho
         <div className="overflow-y-auto px-6 sm:px-7 pb-2 flex-1">
           {/* Popular targets */}
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-[#2A707C] uppercase tracking-wide">Popular Targets</span>
-            <span className="text-[11px] font-bold text-emerald-600">Active Target: {activeLabel}</span>
+            <span className="text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wide">Popular Targets</span>
+            <span className="text-[11px] font-semibold text-emerald-600 text-[#0F766ECC]">Active Target: {activeLabel}</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
@@ -156,8 +156,8 @@ export function CohortGoalModal({ isOpen, onClose, activeGoal, onConfirm }: Coho
                   >
                     <target.icon className="w-4.5 h-4.5" />
                   </div>
-                  <p className={`font-bold text-sm ${isSelected ? 'text-white' : 'text-[#175A67]'}`}>{target.title}</p>
-                  <p className={`text-[11px] mt-0.5 ${isSelected ? 'text-white/70' : 'text-[#2A707C]'}`}>{target.subtitle}</p>
+                  <p className={`font-semibold text-sm ${isSelected ? 'text-white' : 'text-[#0C2E35]'}`}>{target.title}</p>
+                  <p className={`text-[11px] mt-0.5 ${isSelected ? 'text-white/70' : 'text-[#64748B]'}`}>{target.subtitle}</p>
                 </button>
               );
             })}
@@ -182,7 +182,7 @@ export function CohortGoalModal({ isOpen, onClose, activeGoal, onConfirm }: Coho
                       <stream.icon className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-bold text-[#175A67] text-xs sm:text-sm truncate">
+                      <p className="font-semibold text-[#0C2E35] text-xs sm:text-sm truncate">
                         {stream.title} <span className="text-[#2A707C] font-medium">{stream.subtitle}</span>
                       </p>
                     </div>
