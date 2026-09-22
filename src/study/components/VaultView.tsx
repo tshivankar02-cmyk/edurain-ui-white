@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Database, Search, Download, Star, Filter, BookOpen, FolderArchive, ArrowRight } from 'lucide-react';
 import { VaultResource } from '../types';
 
@@ -21,7 +21,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'book',
       description: 'Handwritten summaries with color-coded graphs and 50 toughest IIT JEE Advanced multi-correct problems.',
       rating: 4.9,
-      downloadSize: '24.2 MB'
+      downloadSize: '24.2 MB',
+      second_text: ''
     },
     {
       id: 'v2',
@@ -32,7 +33,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'archive',
       description: 'Complete high-yield reagent flowchart from Grignard to Diazonium conversions with stereochemistry traps.',
       rating: 5.0,
-      downloadSize: '38.0 MB'
+      downloadSize: '38.0 MB',
+      second_text: ''
     },
     {
       id: 'v3',
@@ -43,7 +45,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'analytics',
       description: 'King property shortcuts, reduction formulas, and IIT Advanced subjective question archive.',
       rating: 4.9,
-      downloadSize: '41.5 MB'
+      downloadSize: '41.5 MB',
+      second_text: ''
     },
     {
       id: 'v4',
@@ -54,7 +57,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'book',
       description: 'Detailed field-line geometry and LC oscillation circuit analysis.',
       rating: 4.8,
-      downloadSize: '29.1 MB'
+      downloadSize: '29.1 MB',
+      second_text: ''
     },
     {
       id: 'v5',
@@ -65,7 +69,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'archive',
       description: 'Every exception and reaction highlighted directly from NCERT textbook editions.',
       rating: 4.9,
-      downloadSize: '52.0 MB'
+      downloadSize: '52.0 MB',
+      second_text: ''
     },
     {
       id: 'v6',
@@ -76,7 +81,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onOpenVaultItem, onOpenUpg
       iconType: 'analytics',
       description: 'Vector triple product identities and shortest distance parametric equations.',
       rating: 4.9,
-      downloadSize: '36.4 MB'
+      downloadSize: '36.4 MB',
+      second_text: ''
     }
   ];
 
