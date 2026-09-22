@@ -14,6 +14,7 @@ import {
   Menu
 } from 'lucide-react';
 import { UserProfile } from '../types';
+import logoImage from './photos/EDURAIN_Logo-Photoroom.png';
 
 interface HeaderProps {
   user: UserProfile;
@@ -98,10 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Logo */}
           <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-600 to-teal-900 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.45)] group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-slate-950 fill-slate-950" />
-              <div className="absolute -inset-0.5 rounded-xl bg-emerald-400/30 blur-sm -z-10 group-hover:opacity-100 transition-opacity" />
-            </div>
+            <img src={logoImage} alt="EduRAIN Logo" className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" />
             <div className="flex items-center text-xl font-black tracking-tight font-sans">
               <span className="text-emerald-600 font-bold">Edu</span>
               <span className="text-amber-400 font-black uppercase">RAIN</span>
