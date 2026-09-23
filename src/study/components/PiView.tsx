@@ -25,7 +25,6 @@ import {
   Bookmark,
   Target,
   Activity,
-  HelpCircle,
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -261,12 +260,6 @@ const QUIZ_QUESTIONS = [
 
 const CATEGORIES: Category[] = ['IIT-JEE', 'NEET', 'UPSC'];
 const POINTS_PER_RUPEE = 10; // 10 points = ₹1
-
-const TOP_TEN_STATS = [
-  { icon: Target, label: 'Predictive AIR Rank', value: 'AIR 1,420', sub: '+380 positions jump this mock', trend: TrendingUp },
-  { icon: Activity, label: 'Overall Syllabus Velocity', value: '68.4%', sub: '14.2 hrs remaining for Physics Phase 2' },
-  { icon: HelpCircle, label: 'AI Accuracy Rate', value: '84.2%', sub: 'Highest in Organic Chem (+6% vs Avg)', trend: TrendingUp },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Small shared bits (used by the unchanged Games & Courses sections) */
@@ -1059,23 +1052,6 @@ export function PiView({ onOpenUpgrade, onOpenDoubtSolver }: PiViewProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-          {TOP_TEN_STATS.map((stat) => (
-            <div key={stat.label} className="bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-start gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#EAF3F1] flex items-center justify-center text-[#175A67] shrink-0">
-                <stat.icon className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold text-[#40484B] uppercase tracking-wide">{stat.label}</p>
-                <p className="text-lg font-semibold font-black text-[#003441] mt-0.5">{stat.value}</p>
-                <p className="text-[11px] text-[#006972] mt-0.5 flex items-center gap-1">
-                  {stat.trend && <stat.trend className="w-3 h-3 text-emerald-500 shrink-0" />}
-                  <span className="truncate">{stat.sub}</span>
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* Games — UNCHANGED */}

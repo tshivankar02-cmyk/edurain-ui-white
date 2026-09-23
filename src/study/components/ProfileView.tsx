@@ -23,6 +23,9 @@ import {
   ArrowLeft,
   RefreshCw,
   School,
+  Activity,
+  HelpCircle,
+  TrendingUp,
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -67,6 +70,12 @@ const DEFAULT_PROFILE: StudentProfileData = {
   isPro: true,
   centerVerified: false,
 };
+
+const TOP_TEN_STATS = [
+  { icon: Target, label: 'Predictive AIR Rank', value: 'AIR 1,420', sub: '+380 positions jump this mock', trend: TrendingUp },
+  { icon: Activity, label: 'Overall Syllabus Velocity', value: '68.4%', sub: '14.2 hrs remaining for Physics Phase 2' },
+  { icon: HelpCircle, label: 'AI Accuracy Rate', value: '84.2%', sub: 'Highest in Organic Chem (+6% vs Avg)', trend: TrendingUp },
+];
 
 /* ------------------------------------------------------------------ */
 /*  Small shared bits                                                   */
@@ -190,6 +199,9 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
   const handleLinkOMR = () => showToast('OMR Roll Number linked to your profile.');
   const handleDownloadId = () => showToast('Downloading your Student ID card…');
   const handleShareProfile = () => showToast('Profile link copied to clipboard!');
+
+  // TODO: wire this up to open the dedicated AIR Rank detail page once the design is provided.
+  const handleOpenAirRankDetail = () => showToast('Opening AIR Rank breakdown…');
 
   // Profile strength: Name + Mobile + Stream always complete; Email is the 4th step
   const completedSteps = ['Name', 'Mobile', 'Stream', ...(data.emailAdded ? ['Email'] : [])];
@@ -556,6 +568,34 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Rank & Performance Insight Tiles */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+        {TOP_TEN_STATS.map((stat) => {
+          const isAirRankTile = stat.label === 'Predictive AIR Rank';
+          return (
+            <div
+              key={stat.label}
+              onClick={isAirRankTile ? handleOpenAirRankDetail : undefined}
+              className={`bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-start gap-3 ${
+                isAirRankTile ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(0,0,0,0.08)] transition-all duration-200' : ''
+              }`}
+            >
+              <div className="w-9 h-9 rounded-xl bg-[#EAF3F1] flex items-center justify-center text-[#175A67] shrink-0">
+                <stat.icon className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold text-[#40484B] uppercase tracking-wide">{stat.label}</p>
+                <p className="text-lg font-semibold font-black text-[#003441] mt-0.5">{stat.value}</p>
+                <p className="text-[11px] text-[#006972] mt-0.5 flex items-center gap-1">
+                  {stat.trend && <stat.trend className="w-3 h-3 text-emerald-500 shrink-0" />}
+                  <span className="truncate">{stat.sub}</span>
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Toast */}
