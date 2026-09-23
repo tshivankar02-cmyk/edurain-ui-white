@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import logo from "../study/components/photos/EDURAIN_Logo-Photoroom.png";
 import { 
   Menu, 
   Search, 
@@ -220,9 +221,14 @@ export function App() {
             onClick={() => setActiveNav('study-central')} 
             className="flex items-center gap-2 sm:gap-2.5 cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#175A67] flex items-center justify-center text-[#EAE3DE] shadow-md">
-              <Sparkles className="w-4 h-4 fill-[#EAE3DE]" />
-            </div>
+
+<div className="w-8 h-8 rounded-lg bg-[#175A67] flex items-center justify-center shadow-md overflow-hidden">
+  <img
+    src={logo}
+    alt="Website Logo"
+    className="w-6 h-6 object-contain"
+  />
+</div>
             <div className="flex items-center text-lg sm:text-xl font-bold tracking-tight">
               <span className="text-emerald-600 font-bold">Edu</span>
               <span className="text-amber-400 font-black uppercase">RAIN</span>
