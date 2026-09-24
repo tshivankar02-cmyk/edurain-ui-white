@@ -27,6 +27,9 @@ import {
   HelpCircle,
   TrendingUp,
 } from 'lucide-react';
+import { PerformanceProjectionView } from './PerformanceProjectionView';
+import { SyllabusVelocityView } from './SyllabusVelocityView';
+import { AirRankDetailView } from './AirRankDetailView';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                               */
@@ -150,6 +153,8 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [bonusClaimed, setBonusClaimed] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [showPerformanceProjection, setShowPerformanceProjection] = useState(false);
+  const [showSyllabusVelocity, setShowSyllabusVelocity] = useState(false);
 
   const view = isEditing ? draft : data;
 
@@ -200,8 +205,9 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
   const handleDownloadId = () => showToast('Downloading your Student ID card…');
   const handleShareProfile = () => showToast('Profile link copied to clipboard!');
 
-  // TODO: wire this up to open the dedicated AIR Rank detail page once the design is provided.
-  const handleOpenAirRankDetail = () => showToast('Opening AIR Rank breakdown…');
+  const handleOpenAirRankDetail = () => setShowPerformanceProjection(true);
+
+  const handleOpenSyllabusVelocity = () => setShowSyllabusVelocity(true);
 
   // Profile strength: Name + Mobile + Stream always complete; Email is the 4th step
   const completedSteps = ['Name', 'Mobile', 'Stream', ...(data.emailAdded ? ['Email'] : [])];
@@ -218,6 +224,44 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
     .slice(0, 2)
     .join('')
     .toUpperCase();
+
+  if (showPerformanceProjection) {
+    return (
+      <>
+        <PerformanceProjectionView
+          onBack={() => setShowPerformanceProjection(false)}
+          onOpenSubjectBreakdown={() => showToast('Loading subject-wise breakdown…')}
+          onOpenTestHistory={() => showToast('Opening your test history…')}
+          onPracticeDrills={(spot) => showToast(`Loading ${spot.drillCount} drills for ${spot.topic}…`)}
+        />
+        {toast && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] bg-[#175A67] text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 animate-fadeIn">
+            <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+            {toast}
+          </div>
+        )}
+      </>
+    );
+  }
+
+  if (showSyllabusVelocity) {
+    return (
+      <>
+        <SyllabusVelocityView
+          onBack={() => setShowSyllabusVelocity(false)}
+          onViewChapterChecklist={() => showToast('Opening chapter checklist…')}
+          onOpenRevisionPlan={() => showToast('Opening Chemistry revision plan…')}
+          onOpenSubject={(subject) => showToast(`Loading ${subject.subject} chapter-wise detail…`)}
+        />
+        {toast && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] bg-[#175A67] text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 animate-fadeIn">
+            <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+            {toast}
+          </div>
+        )}
+      </>
+    );
+  }
 
   return (
     <div className="bg-[#DCEAE3] rounded-[28px] p-4 sm:p-6 lg:p-8 pb-10 relative">
@@ -574,12 +618,19 @@ export function ProfileView({ onBack, profile }: ProfileViewProps) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
         {TOP_TEN_STATS.map((stat) => {
           const isAirRankTile = stat.label === 'Predictive AIR Rank';
+          const isSyllabusVelocityTile = stat.label === 'Overall Syllabus Velocity';
+          const isClickable = isAirRankTile || isSyllabusVelocityTile;
+          const handleClick = isAirRankTile
+            ? handleOpenAirRankDetail
+            : isSyllabusVelocityTile
+            ? handleOpenSyllabusVelocity
+            : undefined;
           return (
             <div
               key={stat.label}
-              onClick={isAirRankTile ? handleOpenAirRankDetail : undefined}
+              onClick={handleClick}
               className={`bg-white rounded-2xl p-4 shadow-[0_4px_18px_rgb(0,0,0,0.05)] flex items-start gap-3 ${
-                isAirRankTile ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(0,0,0,0.08)] transition-all duration-200' : ''
+                isClickable ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(0,0,0,0.08)] transition-all duration-200' : ''
               }`}
             >
               <div className="w-9 h-9 rounded-xl bg-[#EAF3F1] flex items-center justify-center text-[#175A67] shrink-0">

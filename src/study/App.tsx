@@ -29,7 +29,7 @@ import { UpgradeModal } from './components/Modals/UpgradeModal';
 import { DoubtSolverModal } from './components/Modals/DoubtSolverModal';
 import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
-import { ProfileView } from './components/ProfileView';
+import { ProfileView } from './components/Profile-section/ProfileView';
 import { LibraryView } from './components/LibraryView';
 import { CohortGoalModal, GoalId } from './components/Modals/CohortGoalModal';
 import { PurchasesModal } from './components/Modals/PurchasesModal';
