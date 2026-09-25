@@ -38,7 +38,8 @@ import { CoursesView } from './components/CoursesView';
 import { TestSeriesView } from './components/TestSeriesView';
 import { ArenaView } from './components/ArenaView';
 import { AiMentorView } from './components/AiMentorView';
-import { BookDoubtSessionView } from './components/BookDoubtSessionView';
+import { BookDoubtSessionView } from './components/askYourDoubt';
+import { BookmarksView } from './components/BookmarksView';
 import { VaultResource, NotificationItem } from './types';
 
 export function App() {
@@ -57,6 +58,7 @@ export function App() {
   const [isDoubtSolverOpen, setIsDoubtSolverOpen] = useState(false);
   const [isAiMentorPageOpen, setIsAiMentorPageOpen] = useState(false);
   const [isBookDoubtSessionOpen, setIsBookDoubtSessionOpen] = useState(false);
+  const [isBookmarksPageOpen, setIsBookmarksPageOpen] = useState(false);
   const [selectedVaultItem, setSelectedVaultItem] = useState<VaultResource | null>(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -211,6 +213,19 @@ export function App() {
       <BookDoubtSessionView
         onBack={() => setIsBookDoubtSessionOpen(false)}
         onOpenMySessions={() => setIsPurchasesModalOpen(true)}
+      />
+    );
+  }
+
+  if (isBookmarksPageOpen) {
+    return (
+      <BookmarksView
+        onBack={() => setIsBookmarksPageOpen(false)}
+        onWatchVideo={(video) => console.log('Resuming video:', video.title)}
+        onOpenPdfViewer={() => console.log('Opening saved PDF viewer…')}
+        onOpenWatchLater={() => console.log('Opening Watch Later list…')}
+        onAddDocument={() => console.log('Add document to wishlist…')}
+        onClearHistory={() => console.log('Clearing watch history…')}
       />
     );
   }
@@ -646,7 +661,7 @@ export function App() {
                 <span>PI</span>
               </button>
 
-              <button
+              {/* <button
                 onClick={() => setActiveNav('library')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'library'
@@ -656,7 +671,7 @@ export function App() {
               >
                 <Library className="w-4 h-4" />
                 <span>LIBRARY</span>
-              </button>
+              </button> */}
             </div>
 
             {/* Group: YOUR STUDY */}
@@ -824,7 +839,15 @@ export function App() {
                     return (
                       <div 
                         key={item.id}
-                        onClick={() => setSelectedVaultItem(item)}
+                        onClick={() => {
+                          if (item.id === 'vault-physics') {
+                            setIsBookmarksPageOpen(true);
+                          } else if (item.id === 'vault-chemistry') {
+                            setActiveNav('library');
+                          } else {
+                            setSelectedVaultItem(item);
+                          }
+                        }}
                         className="bg-white/60 hover:bg-white/85 backdrop-blur-md border border-white/80 rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px] active:scale-[0.98]"
                       >
                         <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#175A67] text-white rounded-2xl flex items-center justify-center shadow-md mb-2 sm:mb-3">
