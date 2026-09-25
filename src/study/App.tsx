@@ -37,6 +37,8 @@ import { PiView } from './components/PiView';
 import { CoursesView } from './components/CoursesView';
 import { TestSeriesView } from './components/TestSeriesView';
 import { ArenaView } from './components/ArenaView';
+import { AiMentorView } from './components/AiMentorView';
+import { BookDoubtSessionView } from './components/BookDoubtSessionView';
 import { VaultResource, NotificationItem } from './types';
 
 export function App() {
@@ -53,6 +55,8 @@ export function App() {
   // Modals
   const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
   const [isDoubtSolverOpen, setIsDoubtSolverOpen] = useState(false);
+  const [isAiMentorPageOpen, setIsAiMentorPageOpen] = useState(false);
+  const [isBookDoubtSessionOpen, setIsBookDoubtSessionOpen] = useState(false);
   const [selectedVaultItem, setSelectedVaultItem] = useState<VaultResource | null>(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -174,14 +178,14 @@ export function App() {
       title: 'ASK YOUR DOUBT',
       subtitle: '',
       icon: HelpCircle,
-      action: () => setIsDoubtSolverOpen(true),
+      action: () => setIsBookDoubtSessionOpen(true),
     },
     {
       id: 'sp3',
       title: 'AI- MENTOR',
       subtitle: '',
       icon: Bot,
-      action: () => setIsDoubtSolverOpen(true),
+      action: () => setIsAiMentorPageOpen(true),
     }
   ];
 
@@ -192,6 +196,24 @@ export function App() {
   const filteredVaultItems = vaultItems.filter(v =>
     !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()) || v.subject.toLowerCase().includes(searchQuery.toLowerCase()) || v.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  if (isAiMentorPageOpen) {
+    return (
+      <AiMentorView
+        userName="Abhinav"
+        onBack={() => setIsAiMentorPageOpen(false)}
+      />
+    );
+  }
+
+  if (isBookDoubtSessionOpen) {
+    return (
+      <BookDoubtSessionView
+        onBack={() => setIsBookDoubtSessionOpen(false)}
+        onOpenMySessions={() => setIsPurchasesModalOpen(true)}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#DCEAE3] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
