@@ -1,50 +1,78 @@
-import React, { useState } from 'react';
-import { 
-  Menu, 
-  Search, 
-  Bell, 
-  BookOpen, 
-  Library, 
-  Crosshair, 
-  ChevronRight, 
-  LayoutGrid, 
-  Terminal, 
-  HelpCircle, 
-  Bot, 
-  Users, 
-  Swords, 
-  Cpu, 
-  FileText, 
-  Sparkles, 
+import React, { useState, useRef, useEffect } from 'react';
+import logo from "../study/components/photos/EDURAIN_Logo-Photoroom.png";
+import {
+  Menu,
+  Search,
+  Bell,
+  BookOpen,
+  Library,
+  Crosshair,
+  ChevronRight,
+  LayoutGrid,
+  Terminal,
+  HelpCircle,
+  Bot,
+  Users,
+  Swords,
+  Cpu,
+  FileText,
+  Sparkles,
   X,
   AlignLeft,
   Wifi,
-  ChevronDown
+  ChevronDown,
+  User,
+  ShoppingBag,
+  LogOut
 } from 'lucide-react';
 import { UpgradeModal } from './components/Modals/UpgradeModal';
 import { DoubtSolverModal } from './components/Modals/DoubtSolverModal';
 import { VaultDetailModal } from './components/Modals/VaultDetailModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
-import { CoursesView } from './components/CoursesView';
+import { ProfileView } from './components/Profile-section/ProfileView';
+import { LibraryView } from './components/LibraryView';
+import { CohortGoalModal, GoalId } from './components/Modals/CohortGoalModal';
+import { PurchasesModal } from './components/Modals/PurchasesModal';
+import { PiView } from './components/PiView';
 import { TestSeriesView } from './components/TestSeriesView';
 import { ArenaView } from './components/ArenaView';
+import { AiMentorView } from './components/AiMentorView';
+import { BookDoubtSessionView } from './components/askYourDoubt';
+import { BookmarksView } from './components/BookmarksView';
+import { EBookLibraryView } from './components/EBookLibraryView';
+import { AuthFlow } from './components/Auth/AuthFlow';
+import { CoursesHub } from './components/Courses/CoursesHub';
 import { VaultResource, NotificationItem } from './types';
 
 export function App() {
+  // Auth — TODO: replace with your real session state (e.g. Firebase onAuthStateChanged)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   // Navigation States
-  const [activeNav, setActiveNav] = useState<'study-central' | 'pi' | 'library' | 'courses' | 'test-series' | 'arena'>('study-central');
+  const [activeNav, setActiveNav] = useState<'study-central' | 'pi' | 'library' | 'courses' | 'test-series' | 'arena' | 'profile'>('study-central');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [selectedBatch, setSelectedBatch] = useState('12th - IIT JEE');
-  const [isBatchOpen, setIsBatchOpen] = useState(false);
+  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
+  const [activeGoal, setActiveGoal] = useState<GoalId>('iit-jee');
   const [isDrawerBatchOpen, setIsDrawerBatchOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Modals
   const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
   const [isDoubtSolverOpen, setIsDoubtSolverOpen] = useState(false);
+  const [isAiMentorPageOpen, setIsAiMentorPageOpen] = useState(false);
+  const [isBookDoubtSessionOpen, setIsBookDoubtSessionOpen] = useState(false);
+  const [isBookmarksPageOpen, setIsBookmarksPageOpen] = useState(false);
+  const [isEbookLibraryOpen, setIsEbookLibraryOpen] = useState(false);
+  // Courses — TODO: load the student's real enrolments from your backend
+  const [enrolledBatchIds, setEnrolledBatchIds] = useState<string[]>([]);
+  const [isMyCoursesOpen, setIsMyCoursesOpen] = useState(false);
   const [selectedVaultItem, setSelectedVaultItem] = useState<VaultResource | null>(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isPurchasesModalOpen, setIsPurchasesModalOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
 
   // Notifications
   const [notifications, setNotifications] = useState<NotificationItem[]>([
@@ -75,13 +103,37 @@ export function App() {
   ]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    if (!isProfileDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileDropdownOpen]);
+
+  const handleLogout = () => {
+    setIsProfileDropdownOpen(false);
+    setActiveNav('study-central');
+    // TODO: also tear down the real session here (e.g. Firebase signOut)
+    setIsAuthenticated(false);
+  };
+
+  const handleEnrollBatch = (batchId: string) =>
+    setEnrolledBatchIds((ids) => (ids.includes(batchId) ? ids : [...ids, batchId]));
+
   const batches = ['12th - IIT JEE', '11th - IIT JEE', 'Dropper - JEE Advanced', 'NEET-UG Premier'];
 
   const vaultItems: VaultResource[] = [
     {
       id: 'vault-physics',
-      title: 'Physics Intel',
+      title: 'Bookmark',
       subject: 'Physics',
+      second_text:'Watch Later',
       countLabel: '12 PDFs',
       tags: ['Rotational Motion', 'Wave Optics', 'Electrodynamics'],
       iconType: 'book',
@@ -91,8 +143,9 @@ export function App() {
     },
     {
       id: 'vault-chemistry',
-      title: 'Chemistry Intel',
+      title: 'Your Class Notes',
       subject: 'Chemistry',
+      second_text:'',
       countLabel: '3 Books',
       tags: ['Reaction Maps', 'Coordination Chem', 'Thermodynamics'],
       iconType: 'archive',
@@ -102,8 +155,9 @@ export function App() {
     },
     {
       id: 'vault-combat',
-      title: 'Mock Tests',
+      title: 'Your Ebook',
       subject: 'Mock Tests',
+      second_text:'',
       countLabel: 'LIVE NOW',
       tags: ['Full Syllabus', 'Real NTA Engine', 'AIR Predictor'],
       iconType: 'combat',
@@ -115,7 +169,8 @@ export function App() {
     },
     {
       id: 'vault-math',
-      title: 'Math Analytics',
+      title: 'Your Enrolled Courses',
+      second_text:'',
       subject: 'Mathematics',
       countLabel: 'Starts in 2 hrs',
       tags: ['Coordinate Geometry', 'Calculus Drill', 'Vectors & 3D'],
@@ -129,28 +184,28 @@ export function App() {
   const studyPlans = [
     {
       id: 'sp1',
-      title: '1 - ON - 1 MENTORSHIP',
-      subtitle: '2 Active Enrollments',
+      title: '1 to 1 MENTORSHIP',
+      subtitle: '',
       icon: Users,
       action: () => setIsUpgradeOpen(true),
     },
     {
       id: 'sp2',
       title: 'ASK YOUR DOUBT',
-      subtitle: 'Physics - Thermodynamics',
+      subtitle: '',
       icon: HelpCircle,
-      action: () => setIsDoubtSolverOpen(true),
+      action: () => setIsBookDoubtSessionOpen(true),
     },
     {
       id: 'sp3',
       title: 'AI- MENTOR',
-      subtitle: '1 Resolved, 2 Pending',
+      subtitle: '',
       icon: Bot,
-      action: () => setIsDoubtSolverOpen(true),
+      action: () => setIsAiMentorPageOpen(true),
     }
   ];
 
-  const filteredStudyPlans = studyPlans.filter(p => 
+  const filteredStudyPlans = studyPlans.filter(p =>
     !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -158,9 +213,60 @@ export function App() {
     !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()) || v.subject.toLowerCase().includes(searchQuery.toLowerCase()) || v.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  if (!isAuthenticated) {
+    return <AuthFlow onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
+
+  if (isEbookLibraryOpen) {
+    return <EBookLibraryView onBack={() => setIsEbookLibraryOpen(false)} />;
+  }
+
+  if (isAiMentorPageOpen) {
+    return (
+      <AiMentorView
+        userName="Abhinav"
+        onBack={() => setIsAiMentorPageOpen(false)}
+      />
+    );
+  }
+
+  if (isBookDoubtSessionOpen) {
+    return (
+      <BookDoubtSessionView
+        onBack={() => setIsBookDoubtSessionOpen(false)}
+        onOpenMySessions={() => setIsPurchasesModalOpen(true)}
+      />
+    );
+  }
+
+  if (isBookmarksPageOpen) {
+    return (
+      <BookmarksView
+        onBack={() => setIsBookmarksPageOpen(false)}
+        onWatchVideo={(video) => console.log('Resuming video:', video.title)}
+        onOpenPdfViewer={() => console.log('Opening saved PDF viewer…')}
+        onOpenWatchLater={() => console.log('Opening Watch Later list…')}
+        onAddDocument={() => console.log('Add document to wishlist…')}
+        onClearHistory={() => console.log('Clearing watch history…')}
+      />
+    );
+  }
+
+  if (isMyCoursesOpen) {
+    return (
+      <CoursesHub
+        mode="enrolled"
+        selectedBatch={selectedBatch}
+        enrolledBatchIds={enrolledBatchIds}
+        onEnroll={handleEnrollBatch}
+        onExit={() => setIsMyCoursesOpen(false)}
+      />
+    );
+  }
+
   return (
-    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#F8FAFC] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
-      
+    <div className="relative min-h-screen w-full font-sans antialiased text-[#175A67] bg-[#DCEAE3] selection:bg-[#175A67] selection:text-[#EAE3DE] overflow-x-hidden">
+
       {/* 1. SOFT AMBIENT BACKGROUND ACCENTS FOR FROSTED GLASS DEPTH */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute -top-20 -left-20 w-[550px] h-[550px] rounded-full bg-emerald-200/40 blur-[130px]" />
@@ -170,11 +276,11 @@ export function App() {
       </div>
 
       {/* 2. TOP NAVIGATION BAR */}
-      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/60 backdrop-blur-lg border-b border-white/80 flex items-center justify-between px-3 sm:px-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-        
+      <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/60 backdrop-blur-[16px] flex items-center justify-between px-3 sm:px-6 shadow-[0px_1px_2px_0px_#0000000D]">
+
         {/* Left: Brand + Hamburger + Desktop Target Selector */}
         <div className="flex items-center gap-2 sm:gap-4">
-          <button 
+          <button
             onClick={() => setIsMobileSidebarOpen(true)}
             className="lg:hidden bg-[#175A67] hover:bg-[#124853] text-[#EAE3DE] p-2 sm:p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center active:scale-95"
             title="Open Mobile Navigation Menu"
@@ -182,13 +288,18 @@ export function App() {
             <Menu className="w-5 h-5 text-[#EAE3DE]" />
           </button>
 
-          <div 
-            onClick={() => setActiveNav('study-central')} 
+          <div
+            onClick={() => setActiveNav('study-central')}
             className="flex items-center gap-2 sm:gap-2.5 cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#175A67] flex items-center justify-center text-[#EAE3DE] shadow-md">
-              <Sparkles className="w-4 h-4 fill-[#EAE3DE]" />
-            </div>
+
+<div className="w-8 h-8 rounded-lg bg-[#175A67] flex items-center justify-center shadow-md overflow-hidden">
+  <img
+    src={logo}
+    alt="Website Logo"
+    className="w-6 h-6 object-contain"
+  />
+</div>
             <div className="flex items-center text-lg sm:text-xl font-bold tracking-tight">
               <span className="text-emerald-600 font-bold">Edu</span>
               <span className="text-amber-400 font-black uppercase">RAIN</span>
@@ -198,32 +309,11 @@ export function App() {
           {/* Desktop Batch Selector */}
           <div className="relative hidden md:block">
             <button
-              onClick={() => setIsBatchOpen(!isBatchOpen)}
+              onClick={() => setIsGoalModalOpen(true)}
               className="border border-white/80 text-[#175A67] bg-white/60 hover:bg-white/85 backdrop-blur-md rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5"
             >
               <span>{selectedBatch} &gt;</span>
             </button>
-
-            {isBatchOpen && (
-              <div className="absolute left-0 top-full mt-2 w-56 rounded-2xl bg-white/90 backdrop-blur-2xl border border-white/80 shadow-xl p-2 z-50 animate-fadeIn">
-                {batches.map((batch) => (
-                  <button
-                    key={batch}
-                    onClick={() => {
-                      setSelectedBatch(batch);
-                      setIsBatchOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
-                      selectedBatch === batch
-                        ? 'bg-[#175A67] text-white font-bold'
-                        : 'text-[#175A67] hover:bg-white/70'
-                    }`}
-                  >
-                    {batch}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 
@@ -239,7 +329,7 @@ export function App() {
               className="bg-white/60 border border-white/80 text-[#175A67] placeholder-[#2A707C] pl-10 pr-8 py-1.5 rounded-full w-full text-xs sm:text-sm focus:outline-none focus:border-[#175A67] focus:ring-2 focus:ring-[#175A67]/20 transition-all shadow-inner backdrop-blur-md"
             />
             {searchQuery && (
-              <button 
+              <button
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 text-[#2A707C] hover:text-[#175A67]"
               >
@@ -251,7 +341,7 @@ export function App() {
 
         {/* Right Action: Mobile Search Toggle + CTA Button + Notification + User Badge */}
         <div className="flex items-center gap-2 sm:gap-3">
-          
+
           {/* Mobile Search Toggle Icon */}
           <button
             onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
@@ -282,13 +372,13 @@ export function App() {
           </button>
 
           {/* User Avatar */}
-          <div className="flex items-center gap-2 sm:gap-3 pl-1 sm:pl-3 border-l border-[#175A67]/20">
+          <div className="relative flex items-center gap-2 sm:gap-3 pl-1 sm:pl-3 border-l border-[#175A67]/20" ref={profileMenuRef}>
             <div className="text-right hidden sm:block leading-tight">
               <span className="text-xs font-bold text-[#175A67] tracking-wide block">Hi, ABHINAV</span>
             </div>
-            <div 
-              className="relative cursor-pointer" 
-              onClick={() => setIsUpgradeOpen(true)}
+            <div
+              className="relative cursor-pointer"
+              onClick={() => setIsProfileDropdownOpen((o) => !o)}
               title="Abhinav - Target JEE 2027"
             >
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-[#175A67] to-[#2A707C] p-0.5 shadow-sm">
@@ -298,6 +388,44 @@ export function App() {
               </div>
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10B981] ring-2 ring-[#EAE3DE]" />
             </div>
+
+            {isProfileDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-52 bg-white/95 backdrop-blur-md border border-[#175A67]/10 rounded-2xl shadow-xl py-1.5 z-50 overflow-hidden">
+                <div className="px-3.5 py-2.5 border-b border-[#175A67]/10">
+                  <p className="text-xs font-bold text-[#175A67]">Abhinav Sharma</p>
+                  <p className="text-[10px] text-[#2A707C] truncate">abhinav.sharma@example.com</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setIsProfileDropdownOpen(false);
+                    setActiveNav('profile');
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-[#175A67] hover:bg-[#175A67]/5 transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  My Profile
+                </button>
+                <button
+                  onClick={() => {
+                    setIsProfileDropdownOpen(false);
+                    setIsPurchasesModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-[#175A67] hover:bg-[#175A67]/5 transition-colors"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  My Purchases
+                </button>
+                <div className="border-t border-[#175A67]/10 mt-1 pt-1">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
@@ -316,7 +444,7 @@ export function App() {
               placeholder="Search in Resources"
               className="bg-white/60 border border-[#175A67]/30 text-[#175A67] placeholder-[#2A707C] pl-10 pr-8 py-2 rounded-xl w-full text-sm focus:outline-none focus:ring-2 focus:ring-[#175A67]/20 shadow-inner"
             />
-            <button 
+            <button
               onClick={() => {
                 setSearchQuery('');
                 setIsMobileSearchOpen(false);
@@ -330,19 +458,19 @@ export function App() {
       )}
 
       {/* 3. SLIDE-OUT MOBILE NAVIGATION DRAWER */}
-      <div 
+      <div
         className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
           isMobileSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         {/* Backdrop */}
-        <div 
+        <div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
           onClick={() => setIsMobileSidebarOpen(false)}
         />
 
         {/* Drawer Panel */}
-        <aside 
+        <aside
           className={`relative w-[280px] max-w-[85vw] h-full bg-white/80 backdrop-blur-2xl border-r border-white/80 shadow-2xl flex flex-col justify-between p-5 transform transition-transform duration-300 ease-out ${
             isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
@@ -374,8 +502,16 @@ export function App() {
                 <span className="text-[11px] font-bold text-[#2A707C]">USER PROFILE</span>
                 <span className="text-[10px] bg-[#10B981]/20 text-[#059669] font-bold px-2 py-0.5 rounded-full">PRO ACTIVE</span>
               </div>
-              <div className="text-xs font-bold text-[#175A67]">Abhinav Sharma</div>
-              
+              <button
+                onClick={() => {
+                  setIsMobileSidebarOpen(false);
+                  setActiveNav('profile');
+                }}
+                className="text-xs font-bold text-[#175A67] hover:underline"
+              >
+                Abhinav Sharma
+              </button>
+
               {/* Batch Selector inside mobile drawer */}
               <div className="mt-2 relative">
                 <button
@@ -429,7 +565,6 @@ export function App() {
               <button
                 onClick={() => {
                   setActiveNav('pi');
-                  setIsDoubtSolverOpen(true);
                   setIsMobileSidebarOpen(false);
                 }}
                 className={`w-full font-semibold rounded-xl px-3.5 py-2.5 flex items-center gap-3 text-sm transition-all ${
@@ -445,7 +580,6 @@ export function App() {
               <button
                 onClick={() => {
                   setActiveNav('library');
-                  setSelectedVaultItem(vaultItems[0]);
                   setIsMobileSidebarOpen(false);
                 }}
                 className={`w-full font-semibold rounded-xl px-3.5 py-2.5 flex items-center gap-3 text-sm transition-all ${
@@ -529,8 +663,8 @@ export function App() {
 
       {/* 4. DESKTOP FIXED SIDEBAR */}
       <div className="pt-16 flex">
-        
-        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-lg bg-white/50 border-r border-white/80 p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+
+        <aside className="hidden lg:flex fixed top-16 left-0 bottom-0 w-[250px] backdrop-blur-[16px] bg-white/50 border-r border-[#FFFFFFA6] p-4 z-30 flex-col justify-between overflow-y-auto no-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <div>
             {/* Group: MENU */}
             <div className="text-xs font-bold text-[#2A707C] px-3 mb-2 tracking-wider uppercase">
@@ -550,10 +684,7 @@ export function App() {
               </button>
 
               <button
-                onClick={() => {
-                  setActiveNav('pi');
-                  setIsDoubtSolverOpen(true);
-                }}
+                onClick={() => setActiveNav('pi')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'pi'
                     ? 'bg-[#175A67] text-white shadow-md'
@@ -564,11 +695,8 @@ export function App() {
                 <span>PI</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setActiveNav('library');
-                  setSelectedVaultItem(vaultItems[0]);
-                }}
+              {/* <button
+                onClick={() => setActiveNav('library')}
                 className={`w-full font-semibold rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition-all ${
                   activeNav === 'library'
                     ? 'bg-[#175A67] text-white shadow-md'
@@ -577,7 +705,7 @@ export function App() {
               >
                 <Library className="w-4 h-4" />
                 <span>LIBRARY</span>
-              </button>
+              </button> */}
             </div>
 
             {/* Group: YOUR STUDY */}
@@ -637,20 +765,32 @@ export function App() {
 
         {/* 5. MAIN DASHBOARD BODY */}
         <main className="flex-1 lg:ml-[250px] px-4 sm:px-8 py-5 sm:py-6 max-w-[1600px] w-full overflow-hidden">
-          
+
           {/* Active View Switching */}
-          {activeNav === 'courses' ? (
-            <CoursesView 
-              onBack={() => setActiveNav('study-central')}
+          {activeNav === 'profile' ? (
+            <ProfileView onBack={() => setActiveNav('study-central')} />
+          ) : activeNav === 'library' ? (
+            <LibraryView onOpenUpgrade={() => setIsUpgradeOpen(true)} />
+          ) : activeNav === 'pi' ? (
+            <PiView
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
+              onOpenDoubtSolver={() => setIsDoubtSolverOpen(true)}
+            />
+          ) : activeNav === 'courses' ? (
+            <CoursesHub
+              mode="catalog"
+              selectedBatch={selectedBatch}
+              enrolledBatchIds={enrolledBatchIds}
+              onEnroll={handleEnrollBatch}
+              onExit={() => setActiveNav('study-central')}
             />
           ) : activeNav === 'test-series' ? (
-            <TestSeriesView 
+            <TestSeriesView
               onBack={() => setActiveNav('study-central')}
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
             />
           ) : activeNav === 'arena' ? (
-            <ArenaView 
+            <ArenaView
               onBack={() => setActiveNav('study-central')}
               onOpenUpgrade={() => setIsUpgradeOpen(true)}
             />
@@ -660,46 +800,46 @@ export function App() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
                 <div>
                   <div className="text-[#175A67] font-semibold text-base sm:text-lg">
-                    Welcome back, operative. Continue your mission.
+                    Welcome back, <span className="text-[#B8860B]">Gauransh</span>
                   </div>
                   <div className="text-xs text-[#2A707C]">
                     Target: IIT-JEE Advanced • Current Batch: <span className="font-bold text-[#175A67]">{selectedBatch}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/60 border border-white/80 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md shadow-sm">
+                {/* <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/60 border border-white/80 text-[11px] text-[#175A67] font-semibold self-start sm:self-auto backdrop-blur-md shadow-sm">
                   <Wifi className="w-3.5 h-3.5 text-[#10B981]" />
                   <span>Wi-Fi Preview Active: 192.168.29.39:5173</span>
-                </div>
+                </div> */}
               </div>
 
               {/* Study Plans Row */}
               <section className="mb-8 sm:mb-10">
                 <div className="flex items-center gap-2.5 mb-4">
                   <Cpu className="w-5 h-5 text-[#175A67]" />
-                  <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Study Plans</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Features</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
                   {filteredStudyPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
-                      <div 
+                      <div
                         key={plan.id}
                         onClick={plan.action}
-                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col justify-between min-h-[140px] sm:min-h-[160px] active:scale-[0.98]"
+                        className="group bg-white/50 hover:bg-white/70 backdrop-blur-xl border border-white/70 hover:border-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_14px_44px_0_rgba(31,38,135,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 cursor-pointer flex flex-col  min-h-[140px] sm:min-h-[120px] active:scale-[0.98]"
                       >
-                        <div className="flex items-start justify-between">
+                        <div className="w-full flex items-start justify-between">
                           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a5b65] text-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
                             <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
                           <ChevronRight className="w-5 h-5 text-[#175A67] group-hover:translate-x-1 transition-transform" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-[#175A67] text-base sm:text-lg mt-3 leading-tight tracking-tight">
+                          <h3 className="font-bold text-[#175A67] text-[15px] mt-3 leading-tight tracking-tightt">
                             {plan.title}
                           </h3>
-                          <p className="text-[#2A707C] text-xs sm:text-sm mt-1 font-medium">{plan.subtitle}</p>
+                          <p className="text-[#2A707C] text-[12px] mt-1 font-medium">{plan.subtitle}</p>
                         </div>
                       </div>
                     );
@@ -714,8 +854,8 @@ export function App() {
                     <AlignLeft className="w-5 h-5 text-[#175A67]" />
                     <h2 className="text-lg sm:text-xl font-bold text-[#175A67]">Library</h2>
                   </div>
-                  <button 
-                    onClick={() => setSelectedVaultItem(vaultItems[0])}
+                  <button
+                    onClick={() => setActiveNav('library')}
                     className="text-xs sm:text-sm font-semibold text-[#175A67] hover:underline flex items-center gap-1"
                   >
                     <span>View All Resources</span>
@@ -723,7 +863,7 @@ export function App() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-4">
                   {filteredVaultItems.map((item) => {
                     const iconMap: Record<string, any> = {
                       book: BookOpen,
@@ -734,20 +874,37 @@ export function App() {
                     const IconComp = iconMap[item.iconType] || BookOpen;
 
                     return (
-                      <div 
+                      <div
                         key={item.id}
-                        onClick={() => setSelectedVaultItem(item)}
+                        onClick={() => {
+                          if (item.id === 'vault-physics') {
+                            setIsBookmarksPageOpen(true);
+                          } else if (item.id === 'vault-chemistry') {
+                            setActiveNav('library');
+                          } else if (item.id === 'vault-combat') {
+                            setIsEbookLibraryOpen(true);
+                          } else if (item.id === 'vault-math') {
+                            setIsMyCoursesOpen(true);
+                          } else {
+                            setSelectedVaultItem(item);
+                          }
+                        }}
                         className="bg-white/60 hover:bg-white/85 backdrop-blur-md border border-white/80 rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px] active:scale-[0.98]"
                       >
                         <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#175A67] text-white rounded-2xl flex items-center justify-center shadow-md mb-2 sm:mb-3">
                           <IconComp className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                         </div>
                         <div className="text-center">
-                          <h3 className="font-bold text-[#175A67] text-center text-base sm:text-lg">{item.title}</h3>
+                          <h3 className="font-bold text-[#175A67] text-center text-base sm:text-lg lg:text-[15px] lg:min-w-[200px] lg:leading-normal">{item.title}</h3>
                           <p className={`text-xs text-center mt-1 ${
                             item.isLive ? 'text-[#10B981] font-bold' : 'text-[#2A707C]'
                           }`}>
                             {item.countLabel}
+                          </p>
+                          <p className={`text-xs text-center mt-1 ${
+                            item.isLive ? 'text-[#10B981] font-bold' : 'text-[#2A707C]'
+                          }`}>
+                            {item.second_text}
                           </p>
                         </div>
                         <span className="text-[#175A67] text-xs text-center block mt-2 sm:mt-3 font-semibold hover:underline">
@@ -789,6 +946,18 @@ export function App() {
         onClose={() => setIsNotificationOpen(false)}
         notifications={notifications}
         onMarkAllRead={() => setNotifications(prev => prev.map(n => ({ ...n, read: true })))}
+      />
+
+      <PurchasesModal
+        isOpen={isPurchasesModalOpen}
+        onClose={() => setIsPurchasesModalOpen(false)}
+      />
+
+      <CohortGoalModal
+        isOpen={isGoalModalOpen}
+        onClose={() => setIsGoalModalOpen(false)}
+        activeGoal={activeGoal}
+        onConfirm={(goal) => setActiveGoal(goal)}
       />
 
     </div>

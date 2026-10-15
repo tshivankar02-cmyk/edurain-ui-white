@@ -36,6 +36,7 @@ const VAULT_RESOURCES: VaultResource[] = [
     id: 'vault-physics',
     title: 'Physics Intel',
     subject: 'Physics',
+    second_text: 'Watch Later',
     countLabel: '12 PDFs',
     tags: ['Rotational Motion', 'Wave Optics', 'Electrodynamics'],
     iconType: 'book',
@@ -46,6 +47,7 @@ const VAULT_RESOURCES: VaultResource[] = [
   {
     id: 'vault-chemistry',
     title: 'Chemistry Intel',
+    second_text: 'Watch Later',
     subject: 'Chemistry',
     countLabel: '3 Books',
     tags: ['Reaction Maps', 'Coordination Chem', 'Thermodynamics'],
@@ -57,6 +59,7 @@ const VAULT_RESOURCES: VaultResource[] = [
   {
     id: 'vault-combat',
     title: 'Mock Tests',
+    second_text: 'Watch Later',
     subject: 'Mock Tests',
     countLabel: 'All-India Predictor',
     tags: ['Full Syllabus', 'Real NTA Engine', 'AIR Predictor'],
@@ -70,6 +73,7 @@ const VAULT_RESOURCES: VaultResource[] = [
   {
     id: 'vault-math',
     title: 'Math Analytics',
+    second_text: 'Watch Later',
     subject: 'Mathematics',
     countLabel: 'Starts in 2 hrs',
     tags: ['Coordinate Geometry', 'Calculus Drill', 'Vectors & 3D'],
